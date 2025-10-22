@@ -1,692 +1,415 @@
-// McVay Enterprises - Main JavaScript File
+// McVay Enterprises Faith Commerce - Main Script
 
-// Configuration
-const CONFIG = {
-    emailEndpoint: 'mailto:aaron@mcvayenterprises.com', // Fallback for email notifications
-    exitIntentDelay: 30000, // 30 seconds
-    scrollThreshold: 0.1,
-    animationDuration: 300
-};
+const CHATGPT_STORE_URL = 'https://chat.openai.com/';
 
-// State Management
-const state = {
-    modalShown: false,
-    exitIntentTriggered: false,
-    newsletterSubscribed: false,
-    currentPage: 1,
-    rankings: [],
-    blogPosts: []
-};
-
-// DOM Elements
-const elements = {
+const selectors = {
     mobileMenuBtn: document.getElementById('mobile-menu-btn'),
     mobileMenu: document.getElementById('mobile-menu'),
     newsletterModal: document.getElementById('newsletter-modal'),
-    bookingModal: document.getElementById('booking-modal'),
     modalClose: document.getElementById('modal-close'),
-    bookingModalClose: document.getElementById('booking-modal-close'),
-    successMessage: document.getElementById('success-message'),
+    successToast: document.getElementById('success-message'),
     newsletterForm: document.getElementById('newsletter-form'),
-    modalNewsletterForm: document.getElementById('modal-newsletter-form'),
-    consultationForm: document.getElementById('consultation-form'),
-    modalConsultationForm: document.getElementById('modal-consultation-form'),
-    rankingsTable: document.getElementById('rankings-table'),
-    blogPosts: document.getElementById('blog-posts'),
-    calendlyWidget: document.getElementById('calendly-widget'),
-    modalCalendlyWidget: document.getElementById('modal-calendly-widget')
+    currentYear: document.getElementById('current-year')
 };
 
-// Initialize application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+const buttons = {
+    newsletter: [
+        'newsletter-btn',
+        'mobile-newsletter-btn',
+        'hero-newsletter-btn',
+        'footer-newsletter-btn',
+        'final-newsletter-btn'
+    ],
+    chatgpt: [
+        'open-chatgpt-btn',
+        'mobile-chatgpt-btn',
+        'final-chatgpt-btn'
+    ]
+};
+
+const products = [
+    {
+        name: 'Faith Over Fear Bracelet Stack',
+        description: 'Three-piece bracelet set with scripture charms and affirmation cards. Ships from Ultimate Shield in 48 hours.',
+        price: '$19.99 retail',
+        profit: '$11.93 profit (84%)',
+        dailyTarget: '58 units/day to hit $250K run rate',
+        tags: ['Top Seller', 'High Margin'],
+        automation: 'AutoDS • Ultimate Shield • TikTok organic'
+    },
+    {
+        name: 'Blessed & Chosen Tee Collection',
+        description: 'Printify direct-to-garment tees with 7 colorways and seasonal scripture drops.',
+        price: '$24.99 retail',
+        profit: '$10.34 profit (41%)',
+        dailyTarget: '67 tees/day = $20.8K monthly revenue',
+        tags: ['Trending', 'Print-on-Demand'],
+        automation: 'Printify • Shopify Flow • Klaviyo'
+    },
+    {
+        name: 'Sterling Cross Necklace Line',
+        description: 'Hypoallergenic stainless-steel crosses with premium packaging and handwritten note option.',
+        price: '$15.99 retail',
+        profit: '$8.54 profit (53%)',
+        dailyTarget: '81 necklaces/day for $250K annually',
+        tags: ['Evergreen', 'Gift Ready'],
+        automation: 'AutoDS • Branded packaging inserts'
+    },
+    {
+        name: 'Scripture Canvas Wall Art',
+        description: '12x18 gallery-wrapped canvases with AI-generated art variations for seasonal drops.',
+        price: '$29.99 retail',
+        profit: '$7.99 profit (27%)',
+        dailyTarget: '87 canvases/day to unlock $1M run rate',
+        tags: ['Premium', 'Seasonal'],
+        automation: 'Printify • Scheduled releases'
+    },
+    {
+        name: 'Daily Faith Planner',
+        description: '90-day devotional planner with gratitude prompts and QR-linked worship playlists.',
+        price: '$34.99 retail',
+        profit: '$14.80 profit (42%)',
+        dailyTarget: '42 planners/day to cross $180K per year',
+        tags: ['Subscription Ready', 'Bundled'],
+        automation: 'AutoDS • Notion fulfillment SOP'
+    },
+    {
+        name: 'Family Devotional Starter Box',
+        description: 'Monthly devotionals, sticker sheets, and bracelet trio packaged for family worship nights.',
+        price: '$49.00 retail',
+        profit: '$24.00 profit (49%)',
+        dailyTarget: '28 boxes/day for $20K monthly profit',
+        tags: ['Recurring', 'Community'],
+        automation: 'Recharge Subscriptions • Klaviyo flows'
+    }
+];
+
+const bundles = [
+    {
+        name: 'Launch Day Conversion Bundle',
+        price: '$59 AOV',
+        stats: 'Bracelet stack + devotional + email upsell',
+        bullets: ['Auto applies 10% chat-exclusive discount', 'Includes 7-day SMS nurture sequence', 'Optimized for TikTok Live drops']
+    },
+    {
+        name: 'Women’s Ministry Pack',
+        price: '$149 wholesale',
+        stats: '12 bracelets + 12 devotionals',
+        bullets: ['Pre-built fundraiser landing page', 'Bulk order automation via AutoDS', 'Church partner outreach email templates']
+    },
+    {
+        name: 'Seasonal Wall Art Series',
+        price: '$34.99/mo subscription',
+        stats: 'Quarterly limited-edition canvas releases',
+        bullets: ['AI art prompts delivered monthly', 'Countdown timers embedded via ReConvert', 'Members-only community challenges']
+    },
+    {
+        name: 'New Believer Welcome Kit',
+        price: '$79 bundle',
+        stats: 'Bible study, bracelet, journal, welcome letter',
+        bullets: ['Automated personalization survey', 'Dynamic cross-sell emails', 'Gift note printing on demand']
+    },
+    {
+        name: 'Corporate Gifting Set',
+        price: '$42 per set',
+        stats: 'Desk scripture art + leather bracelet',
+        bullets: ['Bulk invoicing workflow in Shopify', 'Zapier integration with HubSpot', 'Custom engraving option ready']
+    },
+    {
+        name: 'Faith Kids Surprise Pack',
+        price: '$39 quarterly',
+        stats: 'Stickers, devotionals, mini bracelets',
+        bullets: ['Gamified loyalty program', 'Parent email curriculum', 'Pre-built unboxing script for UGC']
+    }
+];
+
+const automationStack = [
+    {
+        icon: 'fa-box-open',
+        title: 'AutoDS + Ultimate Shield',
+        description: '1-click product imports, automated stock syncing, and hands-free order routing to the fastest supplier.',
+        highlight: 'Enable price automation at 2.5x cost for instant profit control.'
+    },
+    {
+        icon: 'fa-print',
+        title: 'Printify POD Network',
+        description: 'Launch tees, hoodies, and wall art with no inventory. Sync directly to Shopify and ChatGPT.',
+        highlight: 'Activate premium providers for 2-3 day shipping in the US.'
+    },
+    {
+        icon: 'fa-robot',
+        title: 'Faith Commerce Assistant GPT',
+        description: 'Custom GPT recommending products, bundling upsells, and capturing leads straight into Klaviyo.',
+        highlight: 'Use GPT actions to push checkout links and apply discounts.'
+    },
+    {
+        icon: 'fa-bolt',
+        title: 'Zapier + Klaviyo Automations',
+        description: 'Recover carts, trigger nurture emails, and send UGC reminders without lifting a finger.',
+        highlight: 'Seven-email welcome flow pre-loaded with scripture reflections.'
+    },
+    {
+        icon: 'fa-comments',
+        title: 'Tidio AI Support',
+        description: '24/7 chatbot resolves FAQs, tracks orders, and books fundraiser partnerships.',
+        highlight: 'Escalations routed to SMS so you only handle high-value conversations.'
+    }
+];
+
+const timeline = [
+    {
+        day: 'Days 1 - 3',
+        focus: 'Store Foundation',
+        tasks: ['Spin up Shopify + Dawn theme', 'Install AutoDS, Printify, Klaviyo, Tidio', 'Connect custom domain & tracking pixels']
+    },
+    {
+        day: 'Days 4 - 7',
+        focus: 'Catalog Activation',
+        tasks: ['Import 15 proven Christian SKUs', 'Write AI-optimized product descriptions', 'Create bundle offers & upsell flows']
+    },
+    {
+        day: 'Days 8 - 11',
+        focus: 'ChatGPT Commerce',
+        tasks: ['Publish Faith Commerce Assistant GPT', 'Sync Shopify inventory to ChatGPT store', 'Add checkout call-to-actions on website']
+    },
+    {
+        day: 'Days 12 - 16',
+        focus: 'Marketing Engine',
+        tasks: ['Launch TikTok + Instagram short-form calendar', 'Automate welcome & cart recovery emails', 'Set up paid retargeting audiences']
+    },
+    {
+        day: 'Days 17 - 19',
+        focus: 'Optimization Sprints',
+        tasks: ['Run pricing A/B tests', 'Collect first 20 product reviews', 'Record UGC unboxing videos using AI scripts']
+    },
+    {
+        day: 'Days 20 - 21',
+        focus: 'Launch Weekend',
+        tasks: ['Host 3 live-selling sessions', 'Push ChatGPT store notifications', 'Secure 5 partnership commitments']
+    }
+];
+
+const state = {
+    newsletterSubscribed: false,
+    mobileMenuOpen: false
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    populateProducts();
+    populateBundles();
+    populateAutomation();
+    populateTimeline();
+    setupEventListeners();
+    setCurrentYear();
 });
 
-function initializeApp() {
-    setupEventListeners();
-    loadLLMRankings();
-    loadBlogPosts();
-    setupScrollIndicator();
-    setupExitIntent();
-    setupSmoothScrolling();
-    loadCalendlyWidget();
-    console.log('McVay Enterprises website initialized successfully');
+function populateProducts() {
+    const container = document.getElementById('product-grid');
+    if (!container) return;
+    container.innerHTML = products.map(createProductCard).join('');
 }
 
-// Event Listeners Setup
+function createProductCard(product) {
+    const tags = product.tags.map(tag => `<span class="product-tag"><i class="fas fa-star"></i>${tag}</span>`).join('');
+    return `
+        <div class="product-card">
+            <div class="flex items-center justify-between">
+                <h3 class="text-2xl font-bold text-mcvay-navy">${product.name}</h3>
+                <span class="metric-pill text-mcvay-gray"><i class="fas fa-coins"></i> ${product.profit}</span>
+            </div>
+            <p class="text-mcvay-gray leading-relaxed">${product.description}</p>
+            <div class="space-y-2 text-sm text-mcvay-gray">
+                <p><i class="fas fa-tag text-mcvay-blue mr-2"></i>${product.price}</p>
+                <p><i class="fas fa-bullseye text-mcvay-blue mr-2"></i>${product.dailyTarget}</p>
+                <p><i class="fas fa-gears text-mcvay-blue mr-2"></i>${product.automation}</p>
+            </div>
+            <div class="flex flex-wrap gap-2">${tags}</div>
+            <button class="btn-primary w-full" data-product="${product.name}">Add to Shopify Queue</button>
+        </div>
+    `;
+}
+
+function populateBundles() {
+    const container = document.getElementById('bundle-grid');
+    if (!container) return;
+    container.innerHTML = bundles.map(createBundleCard).join('');
+}
+
+function createBundleCard(bundle) {
+    const listItems = bundle.bullets.map(item => `<li class="text-sm text-mcvay-gray">${item}</li>`).join('');
+    return `
+        <div class="bundle-card space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-bold text-mcvay-navy">${bundle.name}</h3>
+                <span class="metric-pill text-mcvay-blue"><i class="fas fa-basket-shopping"></i> ${bundle.price}</span>
+            </div>
+            <p class="text-mcvay-gray text-sm">${bundle.stats}</p>
+            <ul class="space-y-2">${listItems}</ul>
+            <button class="btn-secondary w-full" data-bundle="${bundle.name}">Load Bundle SOP</button>
+        </div>
+    `;
+}
+
+function populateAutomation() {
+    const list = document.getElementById('automation-list');
+    if (!list) return;
+    list.innerHTML = automationStack.map(item => `
+        <li class="automation-item">
+            <i class="fas ${item.icon}"></i>
+            <div>
+                <h4 class="font-semibold text-mcvay-navy">${item.title}</h4>
+                <p class="text-sm text-mcvay-gray">${item.description}</p>
+                <p class="text-xs text-mcvay-blue font-semibold mt-2">${item.highlight}</p>
+            </div>
+        </li>
+    `).join('');
+}
+
+function populateTimeline() {
+    const container = document.getElementById('timeline');
+    if (!container) return;
+    container.innerHTML = timeline.map(item => {
+        const tasks = item.tasks.map(task => `<li class="text-sm text-mcvay-gray flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>${task}</li>`).join('');
+        return `
+            <div class="timeline-card space-y-4">
+                <div class="timeline-badge">${item.day}</div>
+                <h3 class="text-xl font-bold text-mcvay-navy">${item.focus}</h3>
+                <ul class="space-y-2">${tasks}</ul>
+            </div>
+        `;
+    }).join('');
+}
+
 function setupEventListeners() {
-    // Mobile menu toggle
-    elements.mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
-    
-    // Newsletter modal triggers
-    document.getElementById('newsletter-btn')?.addEventListener('click', showNewsletterModal);
-    document.getElementById('mobile-newsletter-btn')?.addEventListener('click', showNewsletterModal);
-    document.getElementById('hero-cta')?.addEventListener('click', showNewsletterModal);
-    
-    // Booking modal triggers
-    document.getElementById('book-meeting-btn')?.addEventListener('click', showBookingModal);
-    document.getElementById('mobile-book-meeting-btn')?.addEventListener('click', showBookingModal);
-    document.getElementById('hero-book-consultation')?.addEventListener('click', showBookingModal);
-    
-    // Modal close
-    elements.modalClose?.addEventListener('click', hideNewsletterModal);
-    elements.bookingModalClose?.addEventListener('click', hideBookingModal);
-    elements.newsletterModal?.addEventListener('click', (e) => {
-        if (e.target === elements.newsletterModal) {
+    selectors.mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+
+    buttons.newsletter.forEach(id => {
+        const btn = document.getElementById(id);
+        btn?.addEventListener('click', showNewsletterModal);
+    });
+
+    buttons.chatgpt.forEach(id => {
+        const btn = document.getElementById(id);
+        btn?.addEventListener('click', openChatGPTStore);
+    });
+
+    selectors.modalClose?.addEventListener('click', hideNewsletterModal);
+    selectors.newsletterModal?.addEventListener('click', (event) => {
+        if (event.target === selectors.newsletterModal) {
             hideNewsletterModal();
         }
     });
-    elements.bookingModal?.addEventListener('click', (e) => {
-        if (e.target === elements.bookingModal) {
-            hideBookingModal();
+
+    selectors.newsletterForm?.addEventListener('submit', handleNewsletterSubmit);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            hideNewsletterModal();
         }
     });
-    
-    // Form submissions
-    elements.newsletterForm?.addEventListener('submit', handleNewsletterSubmission);
-    elements.modalNewsletterForm?.addEventListener('submit', handleNewsletterSubmission);
-    elements.consultationForm?.addEventListener('submit', handleConsultationSubmission);
-    elements.modalConsultationForm?.addEventListener('submit', handleConsultationSubmission);
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', handleKeyboardShortcuts);
-    
-    // Window events
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
+
+    document.addEventListener('click', (event) => {
+        if (event.target.matches('[data-product]')) {
+            const name = event.target.getAttribute('data-product');
+            trackAction(`Product queued: ${name}`);
+            showNotification(`${name} added to your Shopify queue.`);
+        }
+        if (event.target.matches('[data-bundle]')) {
+            const name = event.target.getAttribute('data-bundle');
+            trackAction(`Bundle SOP requested: ${name}`);
+            showNotification(`${name} SOP sent to your inbox.`);
+        }
+    });
 }
 
-// Mobile Menu Functions
 function toggleMobileMenu() {
-    const isHidden = elements.mobileMenu.classList.contains('hidden');
-    if (isHidden) {
-        elements.mobileMenu.classList.remove('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-times text-xl"></i>';
-    } else {
-        elements.mobileMenu.classList.add('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-xl"></i>';
-    }
+    if (!selectors.mobileMenu) return;
+    state.mobileMenuOpen = !state.mobileMenuOpen;
+    selectors.mobileMenu.classList.toggle('hidden');
+    selectors.mobileMenuBtn.innerHTML = state.mobileMenuOpen
+        ? '<i class="fas fa-times text-2xl"></i>'
+        : '<i class="fas fa-bars text-2xl"></i>';
 }
 
-// Newsletter Modal Functions
 function showNewsletterModal() {
-    if (!state.newsletterSubscribed) {
-        elements.newsletterModal?.classList.remove('hidden');
-        state.modalShown = true;
-        document.body.style.overflow = 'hidden';
-        
-        // Focus on first input
-        const firstInput = elements.newsletterModal?.querySelector('input');
-        firstInput?.focus();
-    }
+    if (!selectors.newsletterModal) return;
+    selectors.newsletterModal.classList.remove('hidden');
+    selectors.newsletterModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
 function hideNewsletterModal() {
-    elements.newsletterModal?.classList.add('hidden');
+    if (!selectors.newsletterModal) return;
+    selectors.newsletterModal.classList.add('hidden');
+    selectors.newsletterModal.classList.remove('active');
     document.body.style.overflow = '';
 }
 
-// Booking Modal Functions
-function showBookingModal() {
-    elements.bookingModal?.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    
-    // Load Calendly widget if not already loaded
-    if (!elements.modalCalendlyWidget?.querySelector('.calendly-inline-widget')) {
-        loadCalendlyInModal();
-    }
-}
-
-function hideBookingModal() {
-    elements.bookingModal?.classList.add('hidden');
-    document.body.style.overflow = '';
-}
-
-// Newsletter Submission Handler
-async function handleNewsletterSubmission(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    // Get form values
-    const firstName = form.querySelector('input[type="text"]')?.value || '';
-    const email = form.querySelector('input[type="email"]')?.value || '';
-    const company = form.querySelectorAll('input[type="text"]')[1]?.value || '';
-    
-    if (!email || !firstName) {
-        showNotification('Please fill in all required fields.', 'error');
+async function handleNewsletterSubmit(event) {
+    event.preventDefault();
+    if (state.newsletterSubscribed) {
+        hideNewsletterModal();
+        showNotification('You are already subscribed. Check your email for updates.');
         return;
     }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Subscribing...';
-    submitBtn.disabled = true;
-    
+
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+
+    submitButton.textContent = 'Sending...';
+    submitButton.disabled = true;
+
     try {
-        // Simulate newsletter subscription (in real implementation, this would call your backend)
-        await simulateNewsletterSubscription({ firstName, email, company });
-        
-        // Store subscription in localStorage
-        localStorage.setItem('mcvay_newsletter_subscribed', 'true');
-        localStorage.setItem('mcvay_subscriber_email', email);
-        
+        await simulateSubscription();
         state.newsletterSubscribed = true;
+        localStorage.setItem('mcvay_faith_commerce_subscriber', 'true');
         hideNewsletterModal();
-        showNotification('Successfully subscribed! Check your email for confirmation.', 'success');
-        
-        // Clear form
+        showNotification("Starter pack sent! Watch your inbox in the next 2 minutes.");
         form.reset();
-        
     } catch (error) {
-        console.error('Newsletter subscription error:', error);
-        showNotification('Subscription failed. Please try again.', 'error');
+        console.error('Subscription error', error);
+        showNotification('Something went wrong. Please try again.');
     } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
     }
 }
 
-// Simulate newsletter subscription (replace with actual API call)
-async function simulateNewsletterSubscription(data) {
+function simulateSubscription() {
     return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Newsletter subscription data:', data);
-            // In production, send email notification to aaron@mcvayenterprises.com
-            resolve(true);
-        }, 1000);
+        setTimeout(resolve, 1000);
     });
 }
 
-// Load LLM Rankings Data
-function loadLLMRankings() {
-    const rankings = [
-        { rank: 1, model: 'GPT-4 Turbo', provider: 'OpenAI', score: 94, category: 'General Purpose' },
-        { rank: 2, model: 'Claude 3 Opus', provider: 'Anthropic', score: 92, category: 'Analysis & Reasoning' },
-        { rank: 3, model: 'Gemini Ultra', provider: 'Google', score: 91, category: 'Multimodal' },
-        { rank: 4, model: 'GPT-4', provider: 'OpenAI', score: 89, category: 'General Purpose' },
-        { rank: 5, model: 'Claude 3 Sonnet', provider: 'Anthropic', score: 87, category: 'Creative Writing' },
-        { rank: 6, model: 'Gemini Pro', provider: 'Google', score: 85, category: 'Code Generation' },
-        { rank: 7, model: 'LLaMA 2 70B', provider: 'Meta', score: 82, category: 'Open Source' },
-        { rank: 8, model: 'PaLM 2', provider: 'Google', score: 80, category: 'Research' },
-        { rank: 9, model: 'Claude 2', provider: 'Anthropic', score: 78, category: 'Safety Focused' },
-        { rank: 10, model: 'GPT-3.5 Turbo', provider: 'OpenAI', score: 76, category: 'Cost Effective' }
-    ];
-    
-    state.rankings = rankings;
-    renderRankingsTable(rankings);
-}
-
-function renderRankingsTable(rankings) {
-    if (!elements.rankingsTable) return;
-    
-    const tableHTML = rankings.map(item => `
-        <tr class="rankings-row border-b border-gray-100 hover:bg-gray-50">
-            <td class="py-4 px-4 font-bold text-mcvay-blue">#${item.rank}</td>
-            <td class="py-4 px-4 font-semibold">${item.model}</td>
-            <td class="py-4 px-4 text-gray-600">${item.provider}</td>
-            <td class="py-4 px-4">
-                <span class="score-badge ${getScoreClass(item.score)}">
-                    ${item.score}/100
-                </span>
-            </td>
-            <td class="py-4 px-4 text-sm text-gray-500">${item.category}</td>
-        </tr>
-    `).join('');
-    
-    elements.rankingsTable.innerHTML = tableHTML;
-}
-
-function getScoreClass(score) {
-    if (score >= 90) return 'score-excellent';
-    if (score >= 80) return 'score-good';
-    if (score >= 70) return 'score-average';
-    return 'score-poor';
-}
-
-// Load Blog Posts
-function loadBlogPosts() {
-    const posts = [
-        {
-            id: 1,
-            title: 'The Future of Large Language Models in Enterprise',
-            excerpt: 'Exploring how Fortune 500 companies are leveraging LLMs for competitive advantage and operational efficiency.',
-            date: '2025-01-10',
-            author: 'McVay Research Team',
-            category: 'Analysis',
-            readTime: '5 min read',
-            image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop'
-        },
-        {
-            id: 2,
-            title: 'GPT-4 vs Claude 3: Comprehensive Performance Analysis',
-            excerpt: 'Deep dive comparison of the two leading language models across multiple benchmarks and real-world applications.',
-            date: '2025-01-08',
-            author: 'Aaron McVay',
-            category: 'Comparison',
-            readTime: '8 min read',
-            image: 'https://images.unsplash.com/photo-1676299081847-824916de030a?w=400&h=250&fit=crop'
-        },
-        {
-            id: 3,
-            title: 'AI Safety and Evaluation: Best Practices for 2025',
-            excerpt: 'Essential guidelines and methodologies for evaluating AI systems safely and effectively in production environments.',
-            date: '2025-01-05',
-            author: 'McVay Research Team',
-            category: 'Safety',
-            readTime: '6 min read',
-            image: 'https://images.unsplash.com/photo-1675557009792-f490b4e04733?w=400&h=250&fit=crop'
-        }
-    ];
-    
-    state.blogPosts = posts;
-    renderBlogPosts(posts);
-}
-
-function renderBlogPosts(posts) {
-    if (!elements.blogPosts) return;
-    
-    const postsHTML = posts.map(post => `
-        <article class="blog-card bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="aspect-w-16 aspect-h-9">
-                <img 
-                    src="${post.image}" 
-                    alt="${post.title}"
-                    class="w-full h-48 object-cover"
-                    loading="lazy"
-                >
-            </div>
-            <div class="p-6">
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span class="bg-mcvay-light text-mcvay-navy px-2 py-1 rounded">${post.category}</span>
-                    <span>${post.readTime}</span>
-                </div>
-                <h3 class="text-xl font-bold text-mcvay-navy mb-3 line-clamp-2">
-                    ${post.title}
-                </h3>
-                <p class="text-gray-600 mb-4 line-clamp-3">
-                    ${post.excerpt}
-                </p>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center text-sm text-gray-500">
-                        <span>By ${post.author}</span>
-                        <span class="mx-2">•</span>
-                        <time datetime="${post.date}">${formatDate(post.date)}</time>
-                    </div>
-                    <a 
-                        href="#" 
-                        class="text-mcvay-blue hover:text-blue-700 font-semibold text-sm"
-                        onclick="openBlogPost(${post.id})"
-                    >
-                        Read More →
-                    </a>
-                </div>
-            </div>
-        </article>
-    `).join('');
-    
-    elements.blogPosts.innerHTML = postsHTML;
-}
-
-// Utility Functions
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
-}
-
-function openBlogPost(id) {
-    // Placeholder for blog post functionality
-    console.log('Opening blog post:', id);
-    showNotification('Blog post feature coming soon!', 'info');
-}
-
-// Exit Intent Detection
-function setupExitIntent() {
-    let exitIntentTimer = null;
-    
-    // Show modal after 30 seconds if not already shown
-    exitIntentTimer = setTimeout(() => {
-        if (!state.modalShown && !state.newsletterSubscribed) {
-            showNewsletterModal();
-            state.exitIntentTriggered = true;
-        }
-    }, CONFIG.exitIntentDelay);
-    
-    // Mouse leave detection for desktop
-    document.addEventListener('mouseleave', (e) => {
-        if (e.clientY <= 0 && !state.modalShown && !state.newsletterSubscribed) {
-            clearTimeout(exitIntentTimer);
-            showNewsletterModal();
-            state.exitIntentTriggered = true;
-        }
-    });
-}
-
-// Scroll Indicator
-function setupScrollIndicator() {
-    const indicator = document.createElement('div');
-    indicator.className = 'scroll-indicator';
-    document.body.appendChild(indicator);
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        indicator.style.transform = `scaleX(${scrolled / 100})`;
-    });
-}
-
-// Smooth Scrolling
-function setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// Scroll Handler
-function handleScroll() {
-    // Add scroll-based animations or effects here
-    const scrollY = window.scrollY;
-    
-    // Navigation background opacity
-    const nav = document.querySelector('nav');
-    if (nav) {
-        if (scrollY > 50) {
-            nav.classList.add('backdrop-blur-sm');
-        } else {
-            nav.classList.remove('backdrop-blur-sm');
-        }
-    }
-}
-
-// Resize Handler
-function handleResize() {
-    // Close mobile menu on resize to desktop
-    if (window.innerWidth >= 768) {
-        elements.mobileMenu?.classList.add('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-xl"></i>';
-    }
-}
-
-// Keyboard Shortcuts
-function handleKeyboardShortcuts(e) {
-    // ESC key to close modal
-    if (e.key === 'Escape') {
-        hideNewsletterModal();
-    }
-    
-    // Ctrl/Cmd + K to open newsletter modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        showNewsletterModal();
-    }
-}
-
-// Notification System
-function showNotification(message, type = 'success') {
-    // Remove existing notifications
-    document.querySelectorAll('.notification').forEach(el => el.remove());
-    
-    const notification = document.createElement('div');
-    notification.className = `notification fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 success-slide-in ${getNotificationClass(type)}`;
-    
-    const icon = getNotificationIcon(type);
-    notification.innerHTML = `
-        <div class="flex items-center">
-            <i class="${icon} mr-2"></i>
-            <span>${message}</span>
-            <button class="ml-4 text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Auto remove after 5 seconds
+function showNotification(message) {
+    if (!selectors.successToast) return;
+    selectors.successToast.querySelector('span').textContent = message;
+    selectors.successToast.classList.remove('success-slide-in');
+    void selectors.successToast.offsetWidth;
+    selectors.successToast.classList.remove('hidden');
+    selectors.successToast.classList.add('success-slide-in');
     setTimeout(() => {
-        notification.remove();
-    }, 5000);
+        selectors.successToast.classList.add('hidden');
+        selectors.successToast.classList.remove('success-slide-in');
+    }, 3500);
 }
 
-function getNotificationClass(type) {
-    const classes = {
-        success: 'bg-green-500 text-white',
-        error: 'bg-red-500 text-white',
-        warning: 'bg-yellow-500 text-white',
-        info: 'bg-blue-500 text-white'
-    };
-    return classes[type] || classes.info;
+function openChatGPTStore() {
+    window.open(CHATGPT_STORE_URL, '_blank');
 }
 
-function getNotificationIcon(type) {
-    const icons = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-circle',
-        warning: 'fas fa-exclamation-triangle',
-        info: 'fas fa-info-circle'
-    };
-    return icons[type] || icons.info;
+function trackAction(message) {
+    console.log(message);
 }
 
-// Performance Monitoring
-function trackPerformance() {
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-        });
+function setCurrentYear() {
+    if (selectors.currentYear) {
+        selectors.currentYear.textContent = new Date().getFullYear();
     }
 }
 
-// Check subscription status on load
-function checkSubscriptionStatus() {
-    const subscribed = localStorage.getItem('mcvay_newsletter_subscribed');
-    if (subscribed === 'true') {
-        state.newsletterSubscribed = true;
-    }
+// Restore subscription state on load
+if (localStorage.getItem('mcvay_faith_commerce_subscriber') === 'true') {
+    state.newsletterSubscribed = true;
 }
-
-// Initialize subscription check
-checkSubscriptionStatus();
-trackPerformance();
-
-// Calendly Integration
-function loadCalendlyWidget() {
-    // Load Calendly script if not already loaded
-    if (!window.Calendly) {
-        const script = document.createElement('script');
-        script.src = 'https://assets.calendly.com/assets/external/widget.js';
-        script.onload = () => {
-            initializeCalendlyWidgets();
-        };
-        document.head.appendChild(script);
-        
-        // Load Calendly CSS
-        const link = document.createElement('link');
-        link.href = 'https://assets.calendly.com/assets/external/widget.css';
-        link.rel = 'stylesheet';
-        document.head.appendChild(link);
-    } else {
-        initializeCalendlyWidgets();
-    }
-}
-
-function initializeCalendlyWidgets() {
-    // Replace 'your-calendly-username' with your actual Calendly username
-    const calendlyUrl = 'https://calendly.com/aaron-mcvay/ai-consultation'; // Update this URL
-    
-    // Main consultation section widget
-    if (elements.calendlyWidget && window.Calendly) {
-        try {
-            window.Calendly.initInlineWidget({
-                url: calendlyUrl,
-                parentElement: elements.calendlyWidget,
-                prefill: {},
-                utm: {
-                    utmSource: 'mcvay-enterprises',
-                    utmMedium: 'website',
-                    utmCampaign: 'consultation-booking'
-                }
-            });
-        } catch (error) {
-            console.log('Calendly widget loading error:', error);
-            showFallbackBookingForm();
-        }
-    }
-}
-
-function loadCalendlyInModal() {
-    const calendlyUrl = 'https://calendly.com/aaron-mcvay/ai-consultation'; // Update this URL
-    
-    if (elements.modalCalendlyWidget && window.Calendly) {
-        try {
-            window.Calendly.initInlineWidget({
-                url: calendlyUrl,
-                parentElement: elements.modalCalendlyWidget,
-                prefill: {},
-                utm: {
-                    utmSource: 'mcvay-enterprises',
-                    utmMedium: 'website-modal',
-                    utmCampaign: 'consultation-booking'
-                }
-            });
-        } catch (error) {
-            console.log('Modal Calendly widget loading error:', error);
-            showFallbackModalBookingForm();
-        }
-    }
-}
-
-function showFallbackBookingForm() {
-    if (elements.calendlyWidget) {
-        elements.calendlyWidget.style.display = 'none';
-    }
-    const fallbackForm = document.getElementById('booking-form');
-    if (fallbackForm) {
-        fallbackForm.classList.remove('hidden');
-    }
-}
-
-function showFallbackModalBookingForm() {
-    if (elements.modalCalendlyWidget) {
-        elements.modalCalendlyWidget.style.display = 'none';
-    }
-    const fallbackForm = document.getElementById('modal-booking-form');
-    if (fallbackForm) {
-        fallbackForm.classList.remove('hidden');
-    }
-}
-
-// Consultation Booking Handler
-async function handleConsultationSubmission(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    // Get form values
-    const firstName = form.querySelector('input[placeholder="First Name"]')?.value || '';
-    const lastName = form.querySelector('input[placeholder="Last Name"]')?.value || '';
-    const email = form.querySelector('input[type="email"]')?.value || '';
-    const company = form.querySelector('input[placeholder*="Company"]')?.value || '';
-    const phone = form.querySelector('input[type="tel"]')?.value || '';
-    const preferredTime = form.querySelector('select')?.value || '';
-    const message = form.querySelector('textarea')?.value || '';
-    
-    if (!email || !firstName || !lastName || !company) {
-        showNotification('Please fill in all required fields.', 'error');
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Scheduling...';
-    submitBtn.disabled = true;
-    
-    try {
-        // Simulate consultation booking (replace with actual backend integration)
-        await simulateConsultationBooking({ 
-            firstName, 
-            lastName, 
-            email, 
-            company, 
-            phone, 
-            preferredTime, 
-            message 
-        });
-        
-        hideBookingModal();
-        showNotification('Consultation request received! We\'ll contact you within 24 hours to confirm your appointment.', 'success');
-        
-        // Clear form
-        form.reset();
-        
-    } catch (error) {
-        console.error('Consultation booking error:', error);
-        showNotification('Booking failed. Please try again or contact us directly.', 'error');
-    } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-}
-
-// Simulate consultation booking (replace with actual API call)
-async function simulateConsultationBooking(data) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Consultation booking data:', data);
-            // In production, this would:
-            // 1. Send email to aaron@mcvayenterprises.com
-            // 2. Create calendar event
-            // 3. Send confirmation email to client
-            // 4. Store booking in database
-            resolve(true);
-        }, 1500);
-    });
-}
-
-// Enhanced Keyboard Shortcuts
-function handleKeyboardShortcuts(e) {
-    // ESC key to close modals
-    if (e.key === 'Escape') {
-        hideNewsletterModal();
-        hideBookingModal();
-    }
-    
-    // Ctrl/Cmd + K to open newsletter modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        showNewsletterModal();
-    }
-    
-    // Ctrl/Cmd + B to open booking modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-        e.preventDefault();
-        showBookingModal();
-    }
-}
-
-// Export functions for global access
-window.McVayEnterprises = {
-    showNewsletterModal,
-    hideNewsletterModal,
-    showBookingModal,
-    hideBookingModal,
-    showNotification,
-    openBlogPost
-};
