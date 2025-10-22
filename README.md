@@ -9,6 +9,7 @@ This repository contains the production-ready marketing site for McVay Enterpris
 - **ChatGPT integration hooks** – all “ChatGPT Assistant” buttons open the deployment guide for the Faith Commerce Assistant GPT. Update `config.chatgptStoreUrl` in `main.js` with your published GPT link to go live.
 - **Resource library** with automation SOPs, supplier lists, KPI dashboards, creative prompts, training schedules, and partnership kits.
 - **Persistent local storage** for cart state and newsletter opt-in so returning visitors pick up where they left off.
+- **Live Zoom strategy session CTA** highlighting the personal meeting room details for weekly faith-commerce calls.
 
 ## 🛠️ Configuration
 
@@ -26,8 +27,11 @@ This repository contains the production-ready marketing site for McVay Enterpris
 3. **Product Data**  
    Edit the `products` array in `main.js` to adjust pricing, descriptions, tags, or links to new product sheets located in `resources/products/`.
 
-4. **Bundles & Resources**  
+4. **Bundles & Resources**
    Bundle CTAs link to anchors in `resources/bundle-playbooks.html`. Modify the file (or add new sections) to support additional drops.
+
+5. **Live Session Details**
+   Update the Zoom URL, meeting ID, and passcode in the "Live Session" section of `index.html` if Aaron’s personal meeting room changes.
 
 ## 🚀 Local Development
 

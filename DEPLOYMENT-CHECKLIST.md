@@ -23,6 +23,10 @@ Updated for the product-first McVay Enterprises site.
    - Verify `mcvay-logo.png` is the current brand mark.
    - Generate OG image if sharing on social platforms.
 
+5. **Live Session Details**
+   - Confirm the Zoom URL, meeting ID, and passcode in the live session section match Aaron’s current personal room.
+   - Send yourself the calendar invite to confirm the `mailto:` link prefills correctly.
+
 ## 🌐 Deployment Steps
 
 ### Option A – Netlify (Recommended)
@@ -43,6 +47,7 @@ Updated for the product-first McVay Enterprises site.
 - Complete a newsletter signup and verify the success toast + inbox.
 - Open each resource link to ensure the documents render correctly.
 - Confirm cart state persists across refresh and incognito sessions.
+- Click the "Join the Zoom Room" button and verify it opens the correct meeting in a new tab.
 
 ## 🚀 Launch Week Plan
 
