@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith Commerce Automation SOP | McVay Enterprises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; margin: 0; padding: 0; background: #f8fafc; color: #1f2937; }
+        header { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: #fff; padding: 48px 24px; text-align: center; }
+        main { max-width: 960px; margin: 0 auto; padding: 48px 24px 64px; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #1e3a5f; }
+        h3 { font-size: 1.15rem; margin-top: 1.5rem; margin-bottom: 0.4rem; color: #2563eb; }
+        p { line-height: 1.7; margin-bottom: 1rem; }
+        ul { margin: 0 0 1.2rem 1.1rem; padding: 0; }
+        li { margin-bottom: 0.6rem; }
+        .callout { background: #fff; border-radius: 16px; padding: 20px 24px; box-shadow: 0 24px 36px -20px rgba(30, 64, 175, 0.35); margin-bottom: 2rem; }
+        .badge { display: inline-flex; align-items: center; padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(37, 99, 235, 0.1); color: #2563eb; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+        .grid { display: grid; gap: 1.6rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        .step { background: #fff; border-radius: 16px; padding: 20px 24px; border: 1px solid rgba(30, 58, 95, 0.12); }
+        .step span { font-weight: 700; color: #1e3a5f; }
+        .footer-note { font-size: 0.85rem; color: #64748b; margin-top: 3rem; text-align: center; }
+        a { color: #2563eb; font-weight: 600; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="badge">Automation SOP</span>
+        <h1>Faith Commerce Automation Blueprint</h1>
+        <p>Connect Shopify, AutoDS, Printify, and ChatGPT so every order is fulfilled on autopilot.</p>
+    </header>
+    <main>
+        <section class="callout">
+            <h2>Pre-Launch Checklist</h2>
+            <p>Complete these items before activating automations:</p>
+            <ul>
+                <li>✅ Create a Shopify store and install the <strong>Dawn</strong> theme.</li>
+                <li>✅ Upgrade AutoDS to the "Advanced" plan for automated ordering.</li>
+                <li>✅ Connect Printify and enable your top POD suppliers (Monster Digital, SwiftPOD, printHQ).</li>
+                <li>✅ Verify your business email domain so branded notifications are not flagged as spam.</li>
+                <li>✅ Add a Shopify staff account for <em>automation@mcvayenterprises.com</em> to monitor flows.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>System Connections</h2>
+            <div class="grid grid-2">
+                <div class="step">
+                    <span>1. Shopify ↔ AutoDS</span>
+                    <p>Install the AutoDS app, connect your store, and enable <strong>Fulfilled by AutoDS</strong>. Set default profit rules to <code>cost × 2.4 + shipping</code> and enable automatic price updates.</p>
+                </div>
+                <div class="step">
+                    <span>2. AutoDS ↔ Ultimate Shield</span>
+                    <p>Inside AutoDS, choose <em>Ultimate Shield</em> as the preferred supplier for bracelet SKUs. Toggle "Auto order" and upload your branding insert under <strong>Custom Thank You Card</strong>.</p>
+                </div>
+                <div class="step">
+                    <span>3. Shopify Flow</span>
+                    <p>Create a Flow automation: <em>Trigger → Order paid</em>, <em>Condition → Tag contains chatgpt</em>, <em>Action → Send internal email with order summary and supplier SKU</em>.</p>
+                </div>
+                <div class="step">
+                    <span>4. Klaviyo Integration</span>
+                    <p>Connect Klaviyo via API keys. Sync all customer profiles and enable the prebuilt <strong>ChatGPT drop welcome</strong> series (7 emails, 2 SMS).</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Automation Timeline</h2>
+            <h3>Day 1 - 2: Fulfillment Foundation</h3>
+            <ul>
+                <li>Install AutoDS, DSers, and Syncee for multi-supplier coverage.</li>
+                <li>Configure profit automation and shipping policies (US + International).</li>
+                <li>Map product variants to suppliers and import top six SKUs.</li>
+            </ul>
+            <h3>Day 3 - 4: ChatGPT Commerce</h3>
+            <ul>
+                <li>Create the <strong>Faith Commerce Assistant</strong> GPT with Shopify Actions enabled.</li>
+                <li>Sync product titles, prices, and images to the GPT knowledge base.</li>
+                <li>Test the end-to-end flow: ask for a bracelet suggestion → add to cart → confirm order appears in Shopify.</li>
+            </ul>
+            <h3>Day 5 - 7: Marketing Automation</h3>
+            <ul>
+                <li>Launch Klaviyo welcome + cart recovery sequences using the provided templates.</li>
+                <li>Connect Zapier: New order (Shopify) → Add customer to Airtable CRM → Slack notification.</li>
+                <li>Schedule TikTok &amp; Instagram reels with Later.com, auto-tagging SKUs in captions.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Quality Assurance</h2>
+            <div class="callout">
+                <h3>Weekly Automation Audit</h3>
+                <ul>
+                    <li>Run a test order through ChatGPT to confirm the checkout link is generated.</li>
+                    <li>Verify AutoDS sends supplier tracking numbers back to Shopify within 24 hours.</li>
+                    <li>Ensure Klaviyo flows are triggered (check analytics for open and click rates).</li>
+                    <li>Review Zendesk/Tidio transcripts for unanswered automation questions.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Support & Escalation</h2>
+            <p>Have a manual fallback ready:</p>
+            <ul>
+                <li><strong>aaron@mcvayenterprises.com</strong> receives all failed automation alerts.</li>
+                <li>If AutoDS is down, duplicate the order inside Shopify and forward it directly to the supplier via CSV.</li>
+                <li>Log all incidents in the "Automation QA" tab inside the KPI dashboard template.</li>
+            </ul>
+        </section>
+
+        <p class="footer-note">Updated April 2024 • Questions? Email <a href="mailto:aaron@mcvayenterprises.com">aaron@mcvayenterprises.com</a></p>
+    </main>
+</body>
+</html>

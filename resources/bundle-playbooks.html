@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundle Playbooks | McVay Enterprises Faith Commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; background: #f9fafb; color: #1f2937; }
+        header { padding: 52px 24px; text-align: center; background: linear-gradient(120deg, #2563eb, #1e3a5f); color: #fff; }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.6rem; }
+        header p { max-width: 760px; margin: 0 auto; line-height: 1.7; }
+        main { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+        section { background: #fff; border-radius: 18px; padding: 28px 30px; border: 1px solid rgba(37, 99, 235, 0.15); margin-bottom: 32px; box-shadow: 0 35px 55px -40px rgba(30, 64, 175, 0.35); }
+        h2 { font-size: 1.8rem; margin-bottom: 0.4rem; color: #1e3a5f; }
+        h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.12em; color: #2563eb; margin: 1.2rem 0 0.6rem; }
+        p, li { line-height: 1.6; }
+        ul { margin: 0 0 1rem 1.2rem; padding: 0; }
+        li { margin-bottom: 0.55rem; }
+        .meta { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .meta span { background: rgba(37, 99, 235, 0.12); color: #2563eb; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+        .footer-note { text-align: center; font-size: 0.85rem; color: #64748b; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bundle Playbooks</h1>
+        <p>Launch-ready merchandising, pricing, and automation notes for each curated bundle. Pair these with the Shopify product templates for instant drop execution.</p>
+    </header>
+    <main>
+        <section id="launch-day-conversion-bundle">
+            <h2>Launch Day Conversion Bundle</h2>
+            <div class="meta">
+                <span>Includes: Bracelet Stack + Devotional + Email Upsell</span>
+                <span>AOV: $59</span>
+                <span>Margin: 68%</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Create a Shopify bundle product using <strong>Bundle Kit</strong> with trigger tag <code>launch-day</code>.</li>
+                <li>Enable auto-tag <code>chatgpt</code> for orders added via the assistant.</li>
+                <li>Load the 7-day Klaviyo upsell flow (Day 1: testimonial, Day 3: scripture, Day 6: VIP restock).</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Use TikTok hook: "What to buy when your faith feels shaky."</li>
+                <li>Offer same-day shipping badge powered by AutoDS handling time.</li>
+            </ul>
+        </section>
+
+        <section id="womens-ministry-pack">
+            <h2>Women’s Ministry Pack</h2>
+            <div class="meta">
+                <span>Includes: 12 Bracelets + 12 Devotionals</span>
+                <span>Wholesale: $149</span>
+                <span>Suggested Retail: $318</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Create a wholesale price list in Shopify and assign to customer tag <code>ministry-partner</code>.</li>
+                <li>Generate a custom landing page using the included Section schema (forms + testimonials).</li>
+                <li>Automate invoices via QuickBooks integration when the order tag equals <code>wholesale</code>.</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Include fundraising tracker and 4-week devotional calendar.</li>
+                <li>Send co-branded social graphics using Canva template pack.</li>
+            </ul>
+        </section>
+
+        <section id="seasonal-wall-art-series">
+            <h2>Seasonal Wall Art Series</h2>
+            <div class="meta">
+                <span>Subscription: $34.99/mo</span>
+                <span>Delivery: Quarterly limited-edition canvas</span>
+                <span>Churn Target: &lt;6%</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Activate <strong>Recharge</strong> subscription with 3-month billing frequency.</li>
+                <li>Upload AI prompt library to Notion for monthly art generation.</li>
+                <li>Embed ReConvert countdown timer on the subscription landing page.</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Use Instagram Stories poll for next scripture selection.</li>
+                <li>Bundle with physical devotionals for upsells during renewal reminders.</li>
+            </ul>
+        </section>
+
+        <section id="new-believer-welcome-kit">
+            <h2>New Believer Welcome Kit</h2>
+            <div class="meta">
+                <span>Bundle: Bible study + Bracelet + Journal + Welcome Letter</span>
+                <span>Price: $79</span>
+                <span>Margin: 62%</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Create personalization form via Typeform (name, church, milestone date).</li>
+                <li>Sync responses to Shopify order notes with Zapier.</li>
+                <li>Enable handwritten note add-on using <strong>Order Printer Pro</strong> template.</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Offer churches bulk pricing when ordering 10+ kits.</li>
+                <li>Record unboxing videos featuring testimony segments.</li>
+            </ul>
+        </section>
+
+        <section id="corporate-gifting-set">
+            <h2>Corporate Gifting Set</h2>
+            <div class="meta">
+                <span>Includes: Desk Scripture Art + Leather Bracelet</span>
+                <span>Price: $42</span>
+                <span>Lead Time: 5 business days</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Publish Shopify quote request form connected to HubSpot pipeline.</li>
+                <li>Create engraving options via line-item properties (max 18 characters).</li>
+                <li>Automate invoice emails through Shopify Flow when tag <code>corporate</code> is added.</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Pitch to HR directors emphasizing values-based employee recognition.</li>
+                <li>Offer tiered discounts (50+ units = free engraving).</li>
+            </ul>
+        </section>
+
+        <section id="faith-kids-surprise-pack">
+            <h2>Faith Kids Surprise Pack</h2>
+            <div class="meta">
+                <span>Subscription: $39 quarterly</span>
+                <span>Includes: Stickers + Devotional + Mini Bracelet</span>
+                <span>LTV Goal: $164+</span>
+            </div>
+            <h3>Setup Steps</h3>
+            <ul>
+                <li>Enable loyalty program with Smile.io and reward unboxing shares.</li>
+                <li>Create parent email curriculum (4 weekly lessons per shipment).</li>
+                <li>Automate renewal reminders 7 days before billing.</li>
+            </ul>
+            <h3>Marketing Notes</h3>
+            <ul>
+                <li>Feature kids opening boxes on Instagram Reels using provided scripts.</li>
+                <li>Partner with homeschool co-ops for group discounts.</li>
+            </ul>
+        </section>
+
+        <p class="footer-note">Updated April 2024 • For bundle customization requests email <a href="mailto:merch@mcvayenterprises.com">merch@mcvayenterprises.com</a></p>
+    </main>
+</body>
+</html>
