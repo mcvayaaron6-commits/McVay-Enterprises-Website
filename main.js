@@ -2,8 +2,8 @@
 
 const config = {
     chatgptStoreUrl: 'resources/faith-commerce-assistant-setup.html',
-    newsletterEndpoint: 'https://formsubmit.co/ajax/hello@mcvayenterprises.com',
-    orderEndpoint: 'https://formsubmit.co/ajax/orders@mcvayenterprises.com'
+    newsletterEndpoint: 'https://formsubmit.co/ajax/aaron@mcvayenterprises.com',
+    orderEndpoint: 'https://formsubmit.co/ajax/aaron@mcvayenterprises.com'
 };
 
 const storageKeys = {
@@ -461,7 +461,7 @@ async function handleNewsletterSubmit(event) {
         showNotification('Starter pack sent! Check your inbox within a few minutes.');
     } catch (error) {
         console.error('Newsletter submission failed', error);
-        showNotification('We could not subscribe you. Please email hello@mcvayenterprises.com.');
+        showNotification('We could not subscribe you. Please email aaron@mcvayenterprises.com.');
     } finally {
         if (submitButton) {
             submitButton.textContent = originalText;
@@ -762,7 +762,7 @@ async function handleOrderSubmit(event) {
         showNotification('Order request received! Watch your email for a Shopify checkout link.');
     } catch (error) {
         console.error('Order submission failed', error);
-        showNotification('We could not send your order. Please email orders@mcvayenterprises.com.');
+        showNotification('We could not send your order. Please email aaron@mcvayenterprises.com.');
     } finally {
         if (submitButton) {
             submitButton.textContent = originalText;

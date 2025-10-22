@@ -5,15 +5,15 @@ This repository contains the production-ready marketing site for McVay Enterpris
 ## ✨ Key Features
 
 - **Product-first landing page** featuring six proven SKUs with conversion metrics, product sheets, and bundle playbooks.
-- **Cart & order request workflow** that captures customer details and emails a summary to orders@mcvayenterprises.com via [FormSubmit](https://formsubmit.co). Draft Shopify checkout links can be sent manually or through the GPT action.
+- **Cart & order request workflow** that captures customer details and emails a summary to aaron@mcvayenterprises.com via [FormSubmit](https://formsubmit.co). Draft Shopify checkout links can be sent manually or through the GPT action.
 - **ChatGPT integration hooks** – all “ChatGPT Assistant” buttons open the deployment guide for the Faith Commerce Assistant GPT. Update `config.chatgptStoreUrl` in `main.js` with your published GPT link to go live.
 - **Resource library** with automation SOPs, supplier lists, KPI dashboards, creative prompts, training schedules, and partnership kits.
 - **Persistent local storage** for cart state and newsletter opt-in so returning visitors pick up where they left off.
 
 ## 🛠️ Configuration
 
-1. **Newsletter & Order Endpoints**  
-   `main.js` posts to FormSubmit addresses (`hello@mcvayenterprises.com` for newsletter, `orders@mcvayenterprises.com` for checkout requests). Replace these emails if you want submissions delivered elsewhere.
+1. **Newsletter & Order Endpoints**
+   `main.js` posts to a single FormSubmit address (`aaron@mcvayenterprises.com`) for both newsletter opt-ins and checkout requests. Replace this email if you want submissions delivered elsewhere or split by workflow.
 
 2. **ChatGPT Store Link**  
    After publishing the Faith Commerce Assistant GPT, update:
@@ -68,4 +68,4 @@ No build tools are required.
 
 ## 📬 Support
 
-For implementation help or partnership inquiries, email [hello@mcvayenterprises.com](mailto:hello@mcvayenterprises.com).
+For implementation help or partnership inquiries, email [aaron@mcvayenterprises.com](mailto:aaron@mcvayenterprises.com).

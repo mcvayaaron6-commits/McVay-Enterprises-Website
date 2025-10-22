@@ -5,7 +5,7 @@ Updated for the product-first McVay Enterprises site.
 ## ✅ Pre-Launch Configuration
 
 1. **Email Routing**
-   - Update the FormSubmit endpoints in `main.js` if you prefer different inboxes for newsletter (`hello@…`) and orders (`orders@…`).
+   - `main.js` currently routes both newsletter and order forms to `aaron@mcvayenterprises.com` via FormSubmit. Update these endpoints if you want separate inboxes.
    - Send a test submission for both forms and confirm receipt.
 
 2. **ChatGPT Assistant**
