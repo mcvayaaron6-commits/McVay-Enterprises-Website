@@ -48,14 +48,19 @@
                     <img src="mcvay-logo.png" alt="McVay Enterprises" class="h-10 w-auto">
                     <span class="text-xl font-bold">McVay Enterprises</span>
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
+                <div class="hidden md:flex items-center space-x-6">
                     <a href="#shop" class="nav-link">Products</a>
                     <a href="#collections" class="nav-link">Collections</a>
                     <a href="#automation" class="nav-link">Automation</a>
                     <a href="#launch" class="nav-link">Launch Plan</a>
                     <a href="#resources" class="nav-link">Resources</a>
-                    <button id="open-chatgpt-btn" class="btn-secondary">ChatGPT Store</button>
+                    <button id="open-chatgpt-btn" class="btn-secondary"><i class="fas fa-robot mr-2"></i>ChatGPT Assistant</button>
                     <button id="newsletter-btn" class="btn-primary flex items-center"><i class="fas fa-bolt mr-2"></i>Join Product Drops</button>
+                    <button id="cart-toggle" class="btn-secondary relative">
+                        <i class="fas fa-shopping-basket mr-2"></i>
+                        Cart
+                        <span id="cart-count" class="cart-count">0</span>
+                    </button>
                 </div>
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-mcvay-navy">
@@ -73,8 +78,13 @@
                 <a href="#automation" class="block nav-link">Automation</a>
                 <a href="#launch" class="block nav-link">Launch Plan</a>
                 <a href="#resources" class="block nav-link">Resources</a>
-                <button id="mobile-chatgpt-btn" class="w-full btn-secondary">ChatGPT Store</button>
+                <button id="mobile-chatgpt-btn" class="w-full btn-secondary">ChatGPT Assistant</button>
                 <button id="mobile-newsletter-btn" class="w-full btn-primary">Join Product Drops</button>
+                <button id="mobile-cart-btn" class="w-full btn-secondary flex items-center justify-center space-x-2">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>View Cart</span>
+                    <span id="mobile-cart-count" class="cart-count">0</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -317,37 +327,37 @@
                     <i class="fas fa-file-alt"></i>
                     <h3>Automation SOP</h3>
                     <p>Step-by-step Shopify + AutoDS + ChatGPT configuration guide, including Zapier workflows.</p>
-                    <a href="#" class="resource-link">Download Playbook</a>
+                    <a href="resources/automation-sop.html" class="resource-link" target="_blank" rel="noopener">Download Playbook</a>
                 </div>
                 <div class="resource-card">
                     <i class="fas fa-database"></i>
                     <h3>Supplier Rolodex</h3>
                     <p>Ultimate Shield, AliExpress, and US-based partners with vetted Christian product catalogs.</p>
-                    <a href="#" class="resource-link">View Supplier Sheet</a>
+                    <a href="resources/supplier-rolodex.html" class="resource-link" target="_blank" rel="noopener">View Supplier Sheet</a>
                 </div>
                 <div class="resource-card">
                     <i class="fas fa-chart-pie"></i>
                     <h3>KPI Dashboard</h3>
-                    <p>Notion + Google Looker Studio templates that track unit economics, CAC, and cohort retention.</p>
-                    <a href="#" class="resource-link">Launch Dashboard</a>
+                    <p>Notion + Looker Studio templates that track unit economics, CAC, and cohort retention.</p>
+                    <a href="resources/kpi-dashboard.html" class="resource-link" target="_blank" rel="noopener">Launch Dashboard</a>
                 </div>
                 <div class="resource-card">
                     <i class="fas fa-palette"></i>
                     <h3>Creative Prompts</h3>
                     <p>100+ AI prompts for TikTok, Instagram, and email copy focused on devotionals &amp; jewelry.</p>
-                    <a href="#" class="resource-link">Grab Prompts</a>
+                    <a href="resources/creative-prompts.html" class="resource-link" target="_blank" rel="noopener">Grab Prompts</a>
                 </div>
                 <div class="resource-card">
                     <i class="fas fa-graduation-cap"></i>
                     <h3>Training Vault</h3>
                     <p>Weekly live workshops on faith-commerce scaling, replay access included.</p>
-                    <a href="#" class="resource-link">Reserve Spot</a>
+                    <a href="resources/training-vault.html" class="resource-link" target="_blank" rel="noopener">Reserve Spot</a>
                 </div>
                 <div class="resource-card">
                     <i class="fas fa-handshake"></i>
                     <h3>Partnership Kit</h3>
                     <p>Templates for church fundraisers, influencer collabs, and affiliate onboarding.</p>
-                    <a href="#" class="resource-link">Get the Kit</a>
+                    <a href="resources/partnership-kit.html" class="resource-link" target="_blank" rel="noopener">Get the Kit</a>
                 </div>
             </div>
         </div>
@@ -378,9 +388,9 @@
                     </div>
                     <p class="text-sm text-gray-400">Building the faith-commerce operating system for the new economy.</p>
                     <div class="flex space-x-4 text-gray-500">
-                        <a href="#" aria-label="Instagram" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="TikTok" class="hover:text-white"><i class="fab fa-tiktok"></i></a>
-                        <a href="#" aria-label="LinkedIn" class="hover:text-white"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/mcvayenterprises" aria-label="Instagram" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@mcvayenterprises" aria-label="TikTok" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.linkedin.com/company/mcvay-enterprises" aria-label="LinkedIn" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -423,12 +433,76 @@
                 <h3 class="text-3xl font-bold text-mcvay-navy">Get the Faith Commerce Starter Pack</h3>
                 <p class="text-mcvay-gray">Includes supplier links, Shopify theme, automation SOP, and top-performing product listings.</p>
             </div>
-            <form id="newsletter-form" class="space-y-4">
-                <input type="text" placeholder="First Name" class="form-input" required>
-                <input type="email" placeholder="Email Address" class="form-input" required>
-                <input type="text" placeholder="Preferred Product Focus (Bracelets, Devotionals, etc.)" class="form-input">
+            <form id="newsletter-form" class="space-y-4" autocomplete="on">
+                <input type="text" name="firstName" placeholder="First Name" class="form-input" required>
+                <input type="email" name="email" placeholder="Email Address" class="form-input" required>
+                <input type="text" name="productFocus" placeholder="Preferred Product Focus (Bracelets, Devotionals, etc.)" class="form-input">
+                <div class="text-xs text-mcvay-gray leading-relaxed">By joining you agree to receive weekly product updates and automation tips. Unsubscribe anytime.</div>
                 <button type="submit" class="btn-primary w-full">Send Me the Pack</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-overlay" class="cart-overlay hidden"></div>
+    <aside id="cart-drawer" class="cart-drawer hidden" aria-hidden="true">
+        <div class="cart-header">
+            <div>
+                <h3 class="text-xl font-bold">Order Preview</h3>
+                <p class="text-sm text-mcvay-gray">Draft checkout links are emailed within 12 hours of submission.</p>
+            </div>
+            <button id="cart-close" class="cart-close" aria-label="Close cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="flex items-center justify-between text-sm text-mcvay-gray">
+                <span>Subtotal</span>
+                <span id="cart-total" class="text-lg font-semibold text-mcvay-navy">$0.00</span>
+            </div>
+            <button id="checkout-btn" class="btn-primary w-full" disabled>Submit Order Request</button>
+            <p class="text-xs text-gray-500 leading-relaxed">All invoices are processed through Shopify. You will receive a secure checkout link and tracking details after confirmation.</p>
+        </div>
+    </aside>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-8 relative modal-content">
+            <button id="order-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" aria-label="Close order form">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-mcvay-light text-mcvay-blue text-xs font-semibold uppercase tracking-widest">Cart Summary</span>
+                    <h3 class="text-2xl font-bold text-mcvay-navy">Confirm Your Drop Order</h3>
+                    <p class="text-mcvay-gray text-sm">We send a Shopify draft checkout with live shipping rates and taxes. Nothing is charged until you complete the link.</p>
+                    <div class="order-summary" id="order-summary">
+                        <ul id="order-summary-list" class="space-y-3 text-sm text-mcvay-gray"></ul>
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t">
+                            <span class="text-sm uppercase tracking-widest text-mcvay-gray">Subtotal</span>
+                            <span id="order-summary-total" class="text-xl font-semibold text-mcvay-navy">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+                <form id="order-form" class="space-y-4">
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <input type="text" name="firstName" class="form-input" placeholder="First Name" required>
+                        <input type="text" name="lastName" class="form-input" placeholder="Last Name" required>
+                    </div>
+                    <input type="email" name="email" class="form-input" placeholder="Email" required>
+                    <input type="tel" name="phone" class="form-input" placeholder="Phone (optional)">
+                    <input type="text" name="shippingCity" class="form-input" placeholder="Shipping City & Country" required>
+                    <textarea name="notes" class="form-input" rows="3" placeholder="Notes (sizes, personalization, delivery deadlines)"></textarea>
+                    <label class="flex items-start space-x-3 text-xs text-mcvay-gray">
+                        <input type="checkbox" name="consent" required class="mt-1">
+                        <span>I understand McVay Enterprises will email a secure Shopify checkout link for payment and fulfillment. I consent to receiving order updates via email.</span>
+                    </label>
+                    <input type="hidden" name="orderSummary" id="order-items-field">
+                    <input type="hidden" name="_subject" value="New faith-commerce order request">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <button type="submit" class="btn-primary w-full">Email My Checkout Link</button>
+                </form>
+            </div>
         </div>
     </div>
 

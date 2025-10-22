@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith Commerce Assistant GPT Setup | McVay Enterprises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+        header { padding: 56px 24px; text-align: center; background: linear-gradient(135deg, #1e3a5f, #2563eb); color: #fff; }
+        header h1 { font-size: 2.4rem; margin-bottom: 0.6rem; }
+        header p { max-width: 760px; margin: 0 auto; line-height: 1.8; color: #bfdbfe; }
+        main { max-width: 960px; margin: 0 auto; padding: 48px 24px 72px; }
+        section { background: rgba(15, 23, 42, 0.85); border-radius: 20px; padding: 32px; border: 1px solid rgba(96, 165, 250, 0.35); margin-bottom: 28px; box-shadow: 0 40px 80px -60px rgba(37, 99, 235, 0.55); }
+        h2 { font-size: 1.6rem; margin-bottom: 0.6rem; color: #bfdbfe; }
+        h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.12em; color: #60a5fa; margin: 1.4rem 0 0.6rem; }
+        ul { margin: 0 0 1rem 1.2rem; padding: 0; }
+        li { margin-bottom: 0.55rem; line-height: 1.6; }
+        code { background: rgba(30, 64, 175, 0.35); padding: 3px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; }
+        a { color: #93c5fd; font-weight: 600; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer-note { text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Faith Commerce Assistant GPT</h1>
+        <p>Follow these steps to launch the ChatGPT assistant that recommends products, generates checkout links, and captures leads for McVay Enterprises.</p>
+    </header>
+    <main>
+        <section>
+            <h2>1. Create the GPT</h2>
+            <ul>
+                <li>Open <a href="https://chat.openai.com/gpts" target="_blank" rel="noopener">ChatGPT Builder</a> and click <strong>Create a GPT</strong>.</li>
+                <li>Name it <strong>Faith Commerce Assistant</strong> and add a description such as "Your Christian gift concierge powered by McVay Enterprises."</li>
+                <li>Upload the product sheets from <code>/resources/products</code> and the bundle playbook to the knowledge base.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Configure Actions</h2>
+            <h3>Shopify Checkout Links</h3>
+            <ul>
+                <li>Create a <strong>Shopify custom app</strong> with access to Draft Orders API.</li>
+                <li>Use the provided <code>checkoutLink</code> endpoint (stored in your infrastructure) to generate draft checkouts based on product handles.</li>
+                <li>Connect the API inside the GPT <em>Actions</em> tab with the OpenAPI schema below.</li>
+            </ul>
+<pre>{
+  "openapi": "3.1.0",
+  "info": { "title": "Faith Commerce Checkout", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.mcvayenterprises.com" }],
+  "paths": {
+    "/checkout": {
+      "post": {
+        "operationId": "createCheckout",
+        "summary": "Create Shopify draft checkout",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "handle": { "type": "string" },
+                        "quantity": { "type": "integer" }
+                      },
+                      "required": ["handle", "quantity"]
+                    }
+                  },
+                  "email": { "type": "string" }
+                },
+                "required": ["items"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checkout link created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "checkoutUrl": { "type": "string" }
+                  },
+                  "required": ["checkoutUrl"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}</pre>
+        </section>
+
+        <section>
+            <h2>3. Conversation Prompts</h2>
+            <ul>
+                <li>Use the <strong>Creative Prompts</strong> resource to seed welcome messages and upsell logic.</li>
+                <li>Define guardrails: stay within Christian merchandise, offer bundle suggestions, capture email for follow-up.</li>
+                <li>Add fallback response linking to the Shopify store if the API call fails.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>4. Publish &amp; Embed</h2>
+            <ul>
+                <li>Publish the GPT and copy the shareable link.</li>
+                <li>Update <code>config.chatgptStoreUrl</code> in <code>main.js</code> with the new link so all CTA buttons open the assistant.</li>
+                <li>Announce the GPT via newsletter and add it to the ChatGPT store tags: <code>ecommerce</code>, <code>faith</code>, <code>gift-guide</code>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Tracking</h2>
+            <ul>
+                <li>Add a query parameter (e.g., <code>?utm_source=chatgpt</code>) to generated checkout links for analytics.</li>
+                <li>Tag all GPT-generated orders in Shopify Flow for reporting inside the KPI dashboard.</li>
+                <li>Review usage metrics weekly to optimize prompts and recommended bundles.</li>
+            </ul>
+        </section>
+
+        <p class="footer-note">Need implementation support? Email <a href="mailto:ai@mcvayenterprises.com">ai@mcvayenterprises.com</a></p>
+    </main>
+</body>
+</html>
