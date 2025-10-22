@@ -1,692 +1,801 @@
-// McVay Enterprises - Main JavaScript File
+// McVay Enterprises Faith Commerce - Production Script
 
-// Configuration
-const CONFIG = {
-    emailEndpoint: 'mailto:aaron@mcvayenterprises.com', // Fallback for email notifications
-    exitIntentDelay: 30000, // 30 seconds
-    scrollThreshold: 0.1,
-    animationDuration: 300
+const config = {
+    chatgptStoreUrl: 'resources/faith-commerce-assistant-setup.html',
+    newsletterEndpoint: 'https://formsubmit.co/ajax/aaron@mcvayenterprises.com',
+    orderEndpoint: 'https://formsubmit.co/ajax/aaron@mcvayenterprises.com'
 };
 
-// State Management
-const state = {
-    modalShown: false,
-    exitIntentTriggered: false,
-    newsletterSubscribed: false,
-    currentPage: 1,
-    rankings: [],
-    blogPosts: []
+const storageKeys = {
+    newsletter: 'mcvay_faith_commerce_subscriber',
+    cart: 'mcvay_faith_commerce_cart'
 };
 
-// DOM Elements
-const elements = {
+const selectors = {
     mobileMenuBtn: document.getElementById('mobile-menu-btn'),
     mobileMenu: document.getElementById('mobile-menu'),
     newsletterModal: document.getElementById('newsletter-modal'),
-    bookingModal: document.getElementById('booking-modal'),
     modalClose: document.getElementById('modal-close'),
-    bookingModalClose: document.getElementById('booking-modal-close'),
-    successMessage: document.getElementById('success-message'),
+    successToast: document.getElementById('success-message'),
     newsletterForm: document.getElementById('newsletter-form'),
-    modalNewsletterForm: document.getElementById('modal-newsletter-form'),
-    consultationForm: document.getElementById('consultation-form'),
-    modalConsultationForm: document.getElementById('modal-consultation-form'),
-    rankingsTable: document.getElementById('rankings-table'),
-    blogPosts: document.getElementById('blog-posts'),
-    calendlyWidget: document.getElementById('calendly-widget'),
-    modalCalendlyWidget: document.getElementById('modal-calendly-widget')
+    currentYear: document.getElementById('current-year'),
+    cartToggle: document.getElementById('cart-toggle'),
+    mobileCartBtn: document.getElementById('mobile-cart-btn'),
+    cartDrawer: document.getElementById('cart-drawer'),
+    cartOverlay: document.getElementById('cart-overlay'),
+    cartClose: document.getElementById('cart-close'),
+    cartItems: document.getElementById('cart-items'),
+    cartCount: document.getElementById('cart-count'),
+    mobileCartCount: document.getElementById('mobile-cart-count'),
+    cartTotal: document.getElementById('cart-total'),
+    checkoutBtn: document.getElementById('checkout-btn'),
+    orderModal: document.getElementById('order-modal'),
+    orderModalClose: document.getElementById('order-modal-close'),
+    orderForm: document.getElementById('order-form'),
+    orderSummaryList: document.getElementById('order-summary-list'),
+    orderSummaryTotal: document.getElementById('order-summary-total'),
+    orderItemsField: document.getElementById('order-items-field')
 };
 
-// Initialize application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+const buttons = {
+    newsletter: [
+        'newsletter-btn',
+        'mobile-newsletter-btn',
+        'hero-newsletter-btn',
+        'footer-newsletter-btn',
+        'final-newsletter-btn'
+    ],
+    chatgpt: [
+        'open-chatgpt-btn',
+        'mobile-chatgpt-btn',
+        'final-chatgpt-btn'
+    ]
+};
+
+const products = [
+    {
+        name: 'Faith Over Fear Bracelet Stack',
+        description: 'Three-piece bracelet set with scripture charms and affirmation cards. Ships from Ultimate Shield in 48 hours.',
+        price: 19.99,
+        priceLabel: '$19.99 retail',
+        profit: '$11.93 profit (84%)',
+        dailyTarget: '58 units/day to hit $250K run rate',
+        tags: ['Top Seller', 'High Margin'],
+        automation: 'AutoDS • Ultimate Shield • TikTok organic',
+        sheet: 'resources/products/faith-over-fear-bracelet-stack.html'
+    },
+    {
+        name: 'Blessed & Chosen Tee Collection',
+        description: 'Printify direct-to-garment tees with 7 colorways and seasonal scripture drops.',
+        price: 24.99,
+        priceLabel: '$24.99 retail',
+        profit: '$10.34 profit (41%)',
+        dailyTarget: '67 tees/day = $20.8K monthly revenue',
+        tags: ['Trending', 'Print-on-Demand'],
+        automation: 'Printify • Shopify Flow • Klaviyo',
+        sheet: 'resources/products/blessed-and-chosen-tee-collection.html'
+    },
+    {
+        name: 'Sterling Cross Necklace Line',
+        description: 'Hypoallergenic stainless-steel crosses with premium packaging and handwritten note option.',
+        price: 15.99,
+        priceLabel: '$15.99 retail',
+        profit: '$8.54 profit (53%)',
+        dailyTarget: '81 necklaces/day for $250K annually',
+        tags: ['Evergreen', 'Gift Ready'],
+        automation: 'AutoDS • Branded packaging inserts',
+        sheet: 'resources/products/sterling-cross-necklace-line.html'
+    },
+    {
+        name: 'Scripture Canvas Wall Art',
+        description: '12x18 gallery-wrapped canvases with AI-generated art variations for seasonal drops.',
+        price: 29.99,
+        priceLabel: '$29.99 retail',
+        profit: '$7.99 profit (27%)',
+        dailyTarget: '87 canvases/day to unlock $1M run rate',
+        tags: ['Premium', 'Seasonal'],
+        automation: 'Printify • Scheduled releases',
+        sheet: 'resources/products/scripture-canvas-wall-art.html'
+    },
+    {
+        name: 'Daily Faith Planner',
+        description: '90-day devotional planner with gratitude prompts and QR-linked worship playlists.',
+        price: 34.99,
+        priceLabel: '$34.99 retail',
+        profit: '$14.80 profit (42%)',
+        dailyTarget: '42 planners/day to cross $180K per year',
+        tags: ['Subscription Ready', 'Bundled'],
+        automation: 'AutoDS • Notion fulfillment SOP',
+        sheet: 'resources/products/daily-faith-planner.html'
+    },
+    {
+        name: 'Family Devotional Starter Box',
+        description: 'Monthly devotionals, sticker sheets, and bracelet trio packaged for family worship nights.',
+        price: 49.00,
+        priceLabel: '$49.00 retail',
+        profit: '$24.00 profit (49%)',
+        dailyTarget: '28 boxes/day for $20K monthly profit',
+        tags: ['Recurring', 'Community'],
+        automation: 'Recharge Subscriptions • Klaviyo flows',
+        sheet: 'resources/products/family-devotional-starter-box.html'
+    }
+];
+
+const bundles = [
+    {
+        name: 'Launch Day Conversion Bundle',
+        price: '$59 AOV',
+        stats: 'Bracelet stack + devotional + email upsell',
+        bullets: ['Auto applies 10% chat-exclusive discount', 'Includes 7-day SMS nurture sequence', 'Optimized for TikTok Live drops'],
+        document: 'resources/bundle-playbooks.html#launch-day-conversion-bundle'
+    },
+    {
+        name: 'Women’s Ministry Pack',
+        price: '$149 wholesale',
+        stats: '12 bracelets + 12 devotionals',
+        bullets: ['Pre-built fundraiser landing page', 'Bulk order automation via AutoDS', 'Church partner outreach email templates'],
+        document: 'resources/bundle-playbooks.html#womens-ministry-pack'
+    },
+    {
+        name: 'Seasonal Wall Art Series',
+        price: '$34.99/mo subscription',
+        stats: 'Quarterly limited-edition canvas releases',
+        bullets: ['AI art prompts delivered monthly', 'Countdown timers embedded via ReConvert', 'Members-only community challenges'],
+        document: 'resources/bundle-playbooks.html#seasonal-wall-art-series'
+    },
+    {
+        name: 'New Believer Welcome Kit',
+        price: '$79 bundle',
+        stats: 'Bible study, bracelet, journal, welcome letter',
+        bullets: ['Automated personalization survey', 'Dynamic cross-sell emails', 'Gift note printing on demand'],
+        document: 'resources/bundle-playbooks.html#new-believer-welcome-kit'
+    },
+    {
+        name: 'Corporate Gifting Set',
+        price: '$42 per set',
+        stats: 'Desk scripture art + leather bracelet',
+        bullets: ['Bulk invoicing workflow in Shopify', 'Zapier integration with HubSpot', 'Custom engraving option ready'],
+        document: 'resources/bundle-playbooks.html#corporate-gifting-set'
+    },
+    {
+        name: 'Faith Kids Surprise Pack',
+        price: '$39 quarterly',
+        stats: 'Stickers, devotionals, mini bracelets',
+        bullets: ['Gamified loyalty program', 'Parent email curriculum', 'Pre-built unboxing script for UGC'],
+        document: 'resources/bundle-playbooks.html#faith-kids-surprise-pack'
+    }
+];
+
+const automationStack = [
+    {
+        icon: 'fa-box-open',
+        title: 'AutoDS + Ultimate Shield',
+        description: '1-click product imports, automated stock syncing, and hands-free order routing to the fastest supplier.',
+        highlight: 'Enable price automation at 2.5x cost for instant profit control.'
+    },
+    {
+        icon: 'fa-print',
+        title: 'Printify POD Network',
+        description: 'Launch tees, hoodies, and wall art with no inventory. Sync directly to Shopify and ChatGPT.',
+        highlight: 'Activate premium providers for 2-3 day shipping in the US.'
+    },
+    {
+        icon: 'fa-robot',
+        title: 'Faith Commerce Assistant GPT',
+        description: 'Custom GPT recommending products, bundling upsells, and capturing leads straight into Klaviyo.',
+        highlight: 'Use GPT actions to push checkout links and apply discounts.'
+    },
+    {
+        icon: 'fa-bolt',
+        title: 'Zapier + Klaviyo Automations',
+        description: 'Recover carts, trigger nurture emails, and send UGC reminders without lifting a finger.',
+        highlight: 'Seven-email welcome flow pre-loaded with scripture reflections.'
+    },
+    {
+        icon: 'fa-comments',
+        title: 'Tidio AI Support',
+        description: '24/7 chatbot resolves FAQs, tracks orders, and books fundraiser partnerships.',
+        highlight: 'Escalations routed to SMS so you only handle high-value conversations.'
+    }
+];
+
+const timeline = [
+    {
+        day: 'Days 1 - 3',
+        focus: 'Store Foundation',
+        tasks: ['Spin up Shopify + Dawn theme', 'Install AutoDS, Printify, Klaviyo, Tidio', 'Connect custom domain & tracking pixels']
+    },
+    {
+        day: 'Days 4 - 7',
+        focus: 'Catalog Activation',
+        tasks: ['Import 15 proven Christian SKUs', 'Write AI-optimized product descriptions', 'Create bundle offers & upsell flows']
+    },
+    {
+        day: 'Days 8 - 11',
+        focus: 'ChatGPT Commerce',
+        tasks: ['Publish Faith Commerce Assistant GPT', 'Sync Shopify inventory to ChatGPT store', 'Add checkout call-to-actions on website']
+    },
+    {
+        day: 'Days 12 - 16',
+        focus: 'Marketing Engine',
+        tasks: ['Launch TikTok + Instagram short-form calendar', 'Automate welcome & cart recovery emails', 'Set up paid retargeting audiences']
+    },
+    {
+        day: 'Days 17 - 19',
+        focus: 'Optimization Sprints',
+        tasks: ['Run pricing A/B tests', 'Collect first 20 product reviews', 'Record UGC unboxing videos using AI scripts']
+    },
+    {
+        day: 'Days 20 - 21',
+        focus: 'Launch Weekend',
+        tasks: ['Host 3 live-selling sessions', 'Push ChatGPT store notifications', 'Secure 5 partnership commitments']
+    }
+];
+
+const state = {
+    newsletterSubscribed: false,
+    mobileMenuOpen: false,
+    cart: []
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadStoredState();
+    populateProducts();
+    populateBundles();
+    populateAutomation();
+    populateTimeline();
+    setupEventListeners();
+    renderCart();
+    setCurrentYear();
 });
 
-function initializeApp() {
-    setupEventListeners();
-    loadLLMRankings();
-    loadBlogPosts();
-    setupScrollIndicator();
-    setupExitIntent();
-    setupSmoothScrolling();
-    loadCalendlyWidget();
-    console.log('McVay Enterprises website initialized successfully');
+function populateProducts() {
+    const container = document.getElementById('product-grid');
+    if (!container) return;
+    container.innerHTML = products.map((product, index) => createProductCard(product, index)).join('');
 }
 
-// Event Listeners Setup
+function createProductCard(product, index) {
+    const tags = product.tags.map(tag => `<span class="product-tag"><i class="fas fa-star"></i>${tag}</span>`).join('');
+    return `
+        <div class="product-card">
+            <div class="flex items-center justify-between">
+                <h3 class="text-2xl font-bold text-mcvay-navy">${product.name}</h3>
+                <span class="metric-pill text-mcvay-gray"><i class="fas fa-coins"></i> ${product.profit}</span>
+            </div>
+            <p class="text-mcvay-gray leading-relaxed">${product.description}</p>
+            <div class="space-y-2 text-sm text-mcvay-gray">
+                <p><i class="fas fa-tag text-mcvay-blue mr-2"></i>${product.priceLabel}</p>
+                <p><i class="fas fa-bullseye text-mcvay-blue mr-2"></i>${product.dailyTarget}</p>
+                <p><i class="fas fa-gears text-mcvay-blue mr-2"></i>${product.automation}</p>
+            </div>
+            <div class="flex flex-wrap gap-2">${tags}</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+                <button class="btn-primary w-full" data-product-index="${index}">Add to Drop Order</button>
+                <a class="btn-secondary w-full text-center" href="${product.sheet}" target="_blank" rel="noopener">View Product Sheet</a>
+            </div>
+        </div>
+    `;
+}
+
+function populateBundles() {
+    const container = document.getElementById('bundle-grid');
+    if (!container) return;
+    container.innerHTML = bundles.map(createBundleCard).join('');
+}
+
+function createBundleCard(bundle) {
+    const listItems = bundle.bullets.map(item => `<li class="text-sm text-mcvay-gray">${item}</li>`).join('');
+    return `
+        <div class="bundle-card space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-bold text-mcvay-navy">${bundle.name}</h3>
+                <span class="metric-pill text-mcvay-blue"><i class="fas fa-basket-shopping"></i> ${bundle.price}</span>
+            </div>
+            <p class="text-mcvay-gray text-sm">${bundle.stats}</p>
+            <ul class="space-y-2">${listItems}</ul>
+            <a class="btn-secondary w-full text-center" href="${bundle.document}" target="_blank" rel="noopener">Open Bundle Playbook</a>
+        </div>
+    `;
+}
+
+function populateAutomation() {
+    const list = document.getElementById('automation-list');
+    if (!list) return;
+    list.innerHTML = automationStack.map(item => `
+        <li class="automation-item">
+            <i class="fas ${item.icon}"></i>
+            <div>
+                <h4 class="font-semibold text-mcvay-navy">${item.title}</h4>
+                <p class="text-sm text-mcvay-gray">${item.description}</p>
+                <p class="text-xs text-mcvay-blue font-semibold mt-2">${item.highlight}</p>
+            </div>
+        </li>
+    `).join('');
+}
+
+function populateTimeline() {
+    const container = document.getElementById('timeline');
+    if (!container) return;
+    container.innerHTML = timeline.map(item => {
+        const tasks = item.tasks.map(task => `<li class="text-sm text-mcvay-gray flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>${task}</li>`).join('');
+        return `
+            <div class="timeline-card space-y-4">
+                <div class="timeline-badge">${item.day}</div>
+                <h3 class="text-xl font-bold text-mcvay-navy">${item.focus}</h3>
+                <ul class="space-y-2">${tasks}</ul>
+            </div>
+        `;
+    }).join('');
+}
+
 function setupEventListeners() {
-    // Mobile menu toggle
-    elements.mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
-    
-    // Newsletter modal triggers
-    document.getElementById('newsletter-btn')?.addEventListener('click', showNewsletterModal);
-    document.getElementById('mobile-newsletter-btn')?.addEventListener('click', showNewsletterModal);
-    document.getElementById('hero-cta')?.addEventListener('click', showNewsletterModal);
-    
-    // Booking modal triggers
-    document.getElementById('book-meeting-btn')?.addEventListener('click', showBookingModal);
-    document.getElementById('mobile-book-meeting-btn')?.addEventListener('click', showBookingModal);
-    document.getElementById('hero-book-consultation')?.addEventListener('click', showBookingModal);
-    
-    // Modal close
-    elements.modalClose?.addEventListener('click', hideNewsletterModal);
-    elements.bookingModalClose?.addEventListener('click', hideBookingModal);
-    elements.newsletterModal?.addEventListener('click', (e) => {
-        if (e.target === elements.newsletterModal) {
+    selectors.mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+
+    buttons.newsletter.forEach(id => {
+        const btn = document.getElementById(id);
+        btn?.addEventListener('click', showNewsletterModal);
+    });
+
+    buttons.chatgpt.forEach(id => {
+        const btn = document.getElementById(id);
+        btn?.addEventListener('click', openChatGPTStore);
+    });
+
+    selectors.modalClose?.addEventListener('click', hideNewsletterModal);
+    selectors.newsletterModal?.addEventListener('click', (event) => {
+        if (event.target === selectors.newsletterModal) {
             hideNewsletterModal();
         }
     });
-    elements.bookingModal?.addEventListener('click', (e) => {
-        if (e.target === elements.bookingModal) {
-            hideBookingModal();
+
+    selectors.newsletterForm?.addEventListener('submit', handleNewsletterSubmit);
+
+    selectors.cartToggle?.addEventListener('click', toggleCart);
+    selectors.mobileCartBtn?.addEventListener('click', toggleCart);
+    selectors.cartClose?.addEventListener('click', closeCart);
+    selectors.cartOverlay?.addEventListener('click', closeCart);
+
+    selectors.checkoutBtn?.addEventListener('click', openOrderModal);
+
+    selectors.orderModalClose?.addEventListener('click', closeOrderModal);
+    selectors.orderModal?.addEventListener('click', (event) => {
+        if (event.target === selectors.orderModal) {
+            closeOrderModal();
         }
     });
-    
-    // Form submissions
-    elements.newsletterForm?.addEventListener('submit', handleNewsletterSubmission);
-    elements.modalNewsletterForm?.addEventListener('submit', handleNewsletterSubmission);
-    elements.consultationForm?.addEventListener('submit', handleConsultationSubmission);
-    elements.modalConsultationForm?.addEventListener('submit', handleConsultationSubmission);
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', handleKeyboardShortcuts);
-    
-    // Window events
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
+
+    selectors.orderForm?.addEventListener('submit', handleOrderSubmit);
+
+    document.addEventListener('click', handleGlobalClick);
+    document.addEventListener('keydown', handleKeydown);
 }
 
-// Mobile Menu Functions
+function handleGlobalClick(event) {
+    const productBtn = event.target.closest('[data-product-index]');
+    if (productBtn) {
+        const index = parseInt(productBtn.getAttribute('data-product-index'), 10);
+        addToCart(index);
+        return;
+    }
+
+    const quantityBtn = event.target.closest('[data-cart-action]');
+    if (quantityBtn) {
+        const action = quantityBtn.getAttribute('data-cart-action');
+        const index = parseInt(quantityBtn.getAttribute('data-cart-index'), 10);
+        if (Number.isInteger(index)) {
+            if (action === 'increment') incrementCartItem(index);
+            if (action === 'decrement') decrementCartItem(index);
+        }
+        return;
+    }
+
+    const removeBtn = event.target.closest('[data-cart-remove]');
+    if (removeBtn) {
+        const index = parseInt(removeBtn.getAttribute('data-cart-remove'), 10);
+        if (Number.isInteger(index)) {
+            removeCartItem(index);
+        }
+    }
+}
+
+function handleKeydown(event) {
+    if (event.key === 'Escape') {
+        hideNewsletterModal();
+        closeOrderModal();
+        closeCart();
+    }
+}
+
 function toggleMobileMenu() {
-    const isHidden = elements.mobileMenu.classList.contains('hidden');
-    if (isHidden) {
-        elements.mobileMenu.classList.remove('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-times text-xl"></i>';
-    } else {
-        elements.mobileMenu.classList.add('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-xl"></i>';
-    }
+    if (!selectors.mobileMenu) return;
+    state.mobileMenuOpen = !state.mobileMenuOpen;
+    selectors.mobileMenu.classList.toggle('hidden');
+    selectors.mobileMenuBtn.innerHTML = state.mobileMenuOpen
+        ? '<i class="fas fa-times text-2xl"></i>'
+        : '<i class="fas fa-bars text-2xl"></i>';
 }
 
-// Newsletter Modal Functions
 function showNewsletterModal() {
-    if (!state.newsletterSubscribed) {
-        elements.newsletterModal?.classList.remove('hidden');
-        state.modalShown = true;
-        document.body.style.overflow = 'hidden';
-        
-        // Focus on first input
-        const firstInput = elements.newsletterModal?.querySelector('input');
-        firstInput?.focus();
+    if (state.newsletterSubscribed) {
+        showNotification('You are already on the product drop list. Watch your inbox for updates.');
+        return;
     }
+
+    if (!selectors.newsletterModal) return;
+    selectors.newsletterModal.classList.remove('hidden');
+    selectors.newsletterModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
 function hideNewsletterModal() {
-    elements.newsletterModal?.classList.add('hidden');
+    if (!selectors.newsletterModal) return;
+    selectors.newsletterModal.classList.add('hidden');
+    selectors.newsletterModal.classList.remove('active');
     document.body.style.overflow = '';
 }
 
-// Booking Modal Functions
-function showBookingModal() {
-    elements.bookingModal?.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    
-    // Load Calendly widget if not already loaded
-    if (!elements.modalCalendlyWidget?.querySelector('.calendly-inline-widget')) {
-        loadCalendlyInModal();
+async function handleNewsletterSubmit(event) {
+    event.preventDefault();
+    if (!selectors.newsletterForm) return;
+
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton?.textContent;
+
+    submitButton && (submitButton.textContent = 'Sending...');
+    submitButton && (submitButton.disabled = true);
+
+    const formData = new FormData(form);
+    formData.append('_subject', 'New Faith Commerce subscriber');
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+    formData.append('source', 'Website product drops modal');
+
+    try {
+        await submitForm(config.newsletterEndpoint, formData);
+        state.newsletterSubscribed = true;
+        persistNewsletterState();
+        hideNewsletterModal();
+        form.reset();
+        showNotification('Starter pack sent! Check your inbox within a few minutes.');
+    } catch (error) {
+        console.error('Newsletter submission failed', error);
+        showNotification('We could not subscribe you. Please email aaron@mcvayenterprises.com.');
+    } finally {
+        if (submitButton) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
     }
 }
 
-function hideBookingModal() {
-    elements.bookingModal?.classList.add('hidden');
-    document.body.style.overflow = '';
+async function submitForm(endpoint, formData) {
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json'
+        },
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return response.json();
 }
 
-// Newsletter Submission Handler
-async function handleNewsletterSubmission(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    // Get form values
-    const firstName = form.querySelector('input[type="text"]')?.value || '';
-    const email = form.querySelector('input[type="email"]')?.value || '';
-    const company = form.querySelectorAll('input[type="text"]')[1]?.value || '';
-    
-    if (!email || !firstName) {
-        showNotification('Please fill in all required fields.', 'error');
+function showNotification(message) {
+    if (!selectors.successToast) return;
+    selectors.successToast.querySelector('span').textContent = message;
+    selectors.successToast.classList.remove('success-slide-in');
+    void selectors.successToast.offsetWidth;
+    selectors.successToast.classList.remove('hidden');
+    selectors.successToast.classList.add('success-slide-in');
+    setTimeout(() => {
+        selectors.successToast.classList.add('hidden');
+        selectors.successToast.classList.remove('success-slide-in');
+    }, 3500);
+}
+
+function openChatGPTStore() {
+    if (!config.chatgptStoreUrl) {
+        showNotification('ChatGPT store link will be published shortly.');
         return;
     }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Subscribing...';
-    submitBtn.disabled = true;
-    
+    const url = config.chatgptStoreUrl;
+    window.open(url, '_blank', 'noopener');
+}
+
+function loadStoredState() {
     try {
-        // Simulate newsletter subscription (in real implementation, this would call your backend)
-        await simulateNewsletterSubscription({ firstName, email, company });
-        
-        // Store subscription in localStorage
-        localStorage.setItem('mcvay_newsletter_subscribed', 'true');
-        localStorage.setItem('mcvay_subscriber_email', email);
-        
-        state.newsletterSubscribed = true;
-        hideNewsletterModal();
-        showNotification('Successfully subscribed! Check your email for confirmation.', 'success');
-        
-        // Clear form
-        form.reset();
-        
+        const subscribed = localStorage.getItem(storageKeys.newsletter);
+        state.newsletterSubscribed = subscribed === 'true';
     } catch (error) {
-        console.error('Newsletter subscription error:', error);
-        showNotification('Subscription failed. Please try again.', 'error');
-    } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
+        console.warn('Unable to load newsletter state', error);
     }
-}
 
-// Simulate newsletter subscription (replace with actual API call)
-async function simulateNewsletterSubscription(data) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Newsletter subscription data:', data);
-            // In production, send email notification to aaron@mcvayenterprises.com
-            resolve(true);
-        }, 1000);
-    });
-}
-
-// Load LLM Rankings Data
-function loadLLMRankings() {
-    const rankings = [
-        { rank: 1, model: 'GPT-4 Turbo', provider: 'OpenAI', score: 94, category: 'General Purpose' },
-        { rank: 2, model: 'Claude 3 Opus', provider: 'Anthropic', score: 92, category: 'Analysis & Reasoning' },
-        { rank: 3, model: 'Gemini Ultra', provider: 'Google', score: 91, category: 'Multimodal' },
-        { rank: 4, model: 'GPT-4', provider: 'OpenAI', score: 89, category: 'General Purpose' },
-        { rank: 5, model: 'Claude 3 Sonnet', provider: 'Anthropic', score: 87, category: 'Creative Writing' },
-        { rank: 6, model: 'Gemini Pro', provider: 'Google', score: 85, category: 'Code Generation' },
-        { rank: 7, model: 'LLaMA 2 70B', provider: 'Meta', score: 82, category: 'Open Source' },
-        { rank: 8, model: 'PaLM 2', provider: 'Google', score: 80, category: 'Research' },
-        { rank: 9, model: 'Claude 2', provider: 'Anthropic', score: 78, category: 'Safety Focused' },
-        { rank: 10, model: 'GPT-3.5 Turbo', provider: 'OpenAI', score: 76, category: 'Cost Effective' }
-    ];
-    
-    state.rankings = rankings;
-    renderRankingsTable(rankings);
-}
-
-function renderRankingsTable(rankings) {
-    if (!elements.rankingsTable) return;
-    
-    const tableHTML = rankings.map(item => `
-        <tr class="rankings-row border-b border-gray-100 hover:bg-gray-50">
-            <td class="py-4 px-4 font-bold text-mcvay-blue">#${item.rank}</td>
-            <td class="py-4 px-4 font-semibold">${item.model}</td>
-            <td class="py-4 px-4 text-gray-600">${item.provider}</td>
-            <td class="py-4 px-4">
-                <span class="score-badge ${getScoreClass(item.score)}">
-                    ${item.score}/100
-                </span>
-            </td>
-            <td class="py-4 px-4 text-sm text-gray-500">${item.category}</td>
-        </tr>
-    `).join('');
-    
-    elements.rankingsTable.innerHTML = tableHTML;
-}
-
-function getScoreClass(score) {
-    if (score >= 90) return 'score-excellent';
-    if (score >= 80) return 'score-good';
-    if (score >= 70) return 'score-average';
-    return 'score-poor';
-}
-
-// Load Blog Posts
-function loadBlogPosts() {
-    const posts = [
-        {
-            id: 1,
-            title: 'The Future of Large Language Models in Enterprise',
-            excerpt: 'Exploring how Fortune 500 companies are leveraging LLMs for competitive advantage and operational efficiency.',
-            date: '2025-01-10',
-            author: 'McVay Research Team',
-            category: 'Analysis',
-            readTime: '5 min read',
-            image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop'
-        },
-        {
-            id: 2,
-            title: 'GPT-4 vs Claude 3: Comprehensive Performance Analysis',
-            excerpt: 'Deep dive comparison of the two leading language models across multiple benchmarks and real-world applications.',
-            date: '2025-01-08',
-            author: 'Aaron McVay',
-            category: 'Comparison',
-            readTime: '8 min read',
-            image: 'https://images.unsplash.com/photo-1676299081847-824916de030a?w=400&h=250&fit=crop'
-        },
-        {
-            id: 3,
-            title: 'AI Safety and Evaluation: Best Practices for 2025',
-            excerpt: 'Essential guidelines and methodologies for evaluating AI systems safely and effectively in production environments.',
-            date: '2025-01-05',
-            author: 'McVay Research Team',
-            category: 'Safety',
-            readTime: '6 min read',
-            image: 'https://images.unsplash.com/photo-1675557009792-f490b4e04733?w=400&h=250&fit=crop'
-        }
-    ];
-    
-    state.blogPosts = posts;
-    renderBlogPosts(posts);
-}
-
-function renderBlogPosts(posts) {
-    if (!elements.blogPosts) return;
-    
-    const postsHTML = posts.map(post => `
-        <article class="blog-card bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="aspect-w-16 aspect-h-9">
-                <img 
-                    src="${post.image}" 
-                    alt="${post.title}"
-                    class="w-full h-48 object-cover"
-                    loading="lazy"
-                >
-            </div>
-            <div class="p-6">
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span class="bg-mcvay-light text-mcvay-navy px-2 py-1 rounded">${post.category}</span>
-                    <span>${post.readTime}</span>
-                </div>
-                <h3 class="text-xl font-bold text-mcvay-navy mb-3 line-clamp-2">
-                    ${post.title}
-                </h3>
-                <p class="text-gray-600 mb-4 line-clamp-3">
-                    ${post.excerpt}
-                </p>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center text-sm text-gray-500">
-                        <span>By ${post.author}</span>
-                        <span class="mx-2">•</span>
-                        <time datetime="${post.date}">${formatDate(post.date)}</time>
-                    </div>
-                    <a 
-                        href="#" 
-                        class="text-mcvay-blue hover:text-blue-700 font-semibold text-sm"
-                        onclick="openBlogPost(${post.id})"
-                    >
-                        Read More →
-                    </a>
-                </div>
-            </div>
-        </article>
-    `).join('');
-    
-    elements.blogPosts.innerHTML = postsHTML;
-}
-
-// Utility Functions
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
-}
-
-function openBlogPost(id) {
-    // Placeholder for blog post functionality
-    console.log('Opening blog post:', id);
-    showNotification('Blog post feature coming soon!', 'info');
-}
-
-// Exit Intent Detection
-function setupExitIntent() {
-    let exitIntentTimer = null;
-    
-    // Show modal after 30 seconds if not already shown
-    exitIntentTimer = setTimeout(() => {
-        if (!state.modalShown && !state.newsletterSubscribed) {
-            showNewsletterModal();
-            state.exitIntentTriggered = true;
-        }
-    }, CONFIG.exitIntentDelay);
-    
-    // Mouse leave detection for desktop
-    document.addEventListener('mouseleave', (e) => {
-        if (e.clientY <= 0 && !state.modalShown && !state.newsletterSubscribed) {
-            clearTimeout(exitIntentTimer);
-            showNewsletterModal();
-            state.exitIntentTriggered = true;
-        }
-    });
-}
-
-// Scroll Indicator
-function setupScrollIndicator() {
-    const indicator = document.createElement('div');
-    indicator.className = 'scroll-indicator';
-    document.body.appendChild(indicator);
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        indicator.style.transform = `scaleX(${scrolled / 100})`;
-    });
-}
-
-// Smooth Scrolling
-function setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    try {
+        const storedCart = localStorage.getItem(storageKeys.cart);
+        if (storedCart) {
+            const parsed = JSON.parse(storedCart);
+            if (Array.isArray(parsed)) {
+                state.cart = parsed.filter(item => typeof item === 'object' && 'productIndex' in item && 'quantity' in item);
             }
-        });
-    });
-}
-
-// Scroll Handler
-function handleScroll() {
-    // Add scroll-based animations or effects here
-    const scrollY = window.scrollY;
-    
-    // Navigation background opacity
-    const nav = document.querySelector('nav');
-    if (nav) {
-        if (scrollY > 50) {
-            nav.classList.add('backdrop-blur-sm');
-        } else {
-            nav.classList.remove('backdrop-blur-sm');
         }
+    } catch (error) {
+        console.warn('Unable to load cart state', error);
     }
 }
 
-// Resize Handler
-function handleResize() {
-    // Close mobile menu on resize to desktop
-    if (window.innerWidth >= 768) {
-        elements.mobileMenu?.classList.add('hidden');
-        elements.mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+function persistNewsletterState() {
+    try {
+        localStorage.setItem(storageKeys.newsletter, state.newsletterSubscribed ? 'true' : 'false');
+    } catch (error) {
+        console.warn('Unable to persist newsletter state', error);
     }
 }
 
-// Keyboard Shortcuts
-function handleKeyboardShortcuts(e) {
-    // ESC key to close modal
-    if (e.key === 'Escape') {
-        hideNewsletterModal();
-    }
-    
-    // Ctrl/Cmd + K to open newsletter modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        showNewsletterModal();
+function persistCart() {
+    try {
+        localStorage.setItem(storageKeys.cart, JSON.stringify(state.cart));
+    } catch (error) {
+        console.warn('Unable to persist cart', error);
     }
 }
 
-// Notification System
-function showNotification(message, type = 'success') {
-    // Remove existing notifications
-    document.querySelectorAll('.notification').forEach(el => el.remove());
-    
-    const notification = document.createElement('div');
-    notification.className = `notification fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 success-slide-in ${getNotificationClass(type)}`;
-    
-    const icon = getNotificationIcon(type);
-    notification.innerHTML = `
-        <div class="flex items-center">
-            <i class="${icon} mr-2"></i>
-            <span>${message}</span>
-            <button class="ml-4 text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
-                <i class="fas fa-times"></i>
-            </button>
+function addToCart(index) {
+    if (!products[index]) return;
+    const existing = state.cart.find(item => item.productIndex === index);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        state.cart.push({ productIndex: index, quantity: 1 });
+    }
+    persistCart();
+    renderCart();
+    openCart();
+    showNotification(`${products[index].name} added to your drop order.`);
+}
+
+function incrementCartItem(index) {
+    const item = state.cart[index];
+    if (!item) return;
+    item.quantity += 1;
+    persistCart();
+    renderCart();
+}
+
+function decrementCartItem(index) {
+    const item = state.cart[index];
+    if (!item) return;
+    if (item.quantity > 1) {
+        item.quantity -= 1;
+        persistCart();
+        renderCart();
+    } else {
+        removeCartItem(index);
+    }
+}
+
+function removeCartItem(index) {
+    if (!state.cart[index]) return;
+    const productName = products[state.cart[index].productIndex]?.name;
+    state.cart.splice(index, 1);
+    persistCart();
+    renderCart();
+    if (productName) {
+        showNotification(`${productName} removed from your drop order.`);
+    }
+}
+
+function renderCart() {
+    if (!selectors.cartItems) return;
+
+    if (!state.cart.length) {
+        selectors.cartItems.innerHTML = '<p class="cart-empty">Your cart is empty. Add a product to begin a drop order.</p>';
+    } else {
+        selectors.cartItems.innerHTML = state.cart.map((item, index) => createCartItemMarkup(item, index)).join('');
+    }
+
+    const total = state.cart.reduce((sum, item) => {
+        const product = products[item.productIndex];
+        if (!product) return sum;
+        return sum + product.price * item.quantity;
+    }, 0);
+
+    if (selectors.cartTotal) {
+        selectors.cartTotal.textContent = formatCurrency(total);
+    }
+
+    updateCartCount();
+    updateCheckoutButton();
+    updateOrderSummary();
+}
+
+function createCartItemMarkup(item, index) {
+    const product = products[item.productIndex];
+    if (!product) return '';
+    return `
+        <div class="cart-item">
+            <div>
+                <p class="font-semibold text-mcvay-navy">${product.name}</p>
+                <p class="text-xs text-mcvay-gray">${product.priceLabel} • ${product.profit}</p>
+            </div>
+            <div class="cart-item-controls">
+                <div class="cart-quantity">
+                    <button class="cart-qty-btn" data-cart-action="decrement" data-cart-index="${index}" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+                    <span>${item.quantity}</span>
+                    <button class="cart-qty-btn" data-cart-action="increment" data-cart-index="${index}" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="cart-item-meta">
+                    <span>${formatCurrency(product.price * item.quantity)}</span>
+                    <button class="cart-remove" data-cart-remove="${index}"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
         </div>
     `;
-    
-    document.body.appendChild(notification);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
 }
 
-function getNotificationClass(type) {
-    const classes = {
-        success: 'bg-green-500 text-white',
-        error: 'bg-red-500 text-white',
-        warning: 'bg-yellow-500 text-white',
-        info: 'bg-blue-500 text-white'
-    };
-    return classes[type] || classes.info;
-}
-
-function getNotificationIcon(type) {
-    const icons = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-circle',
-        warning: 'fas fa-exclamation-triangle',
-        info: 'fas fa-info-circle'
-    };
-    return icons[type] || icons.info;
-}
-
-// Performance Monitoring
-function trackPerformance() {
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            console.log('Page Load Time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-        });
+function updateCartCount() {
+    const count = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (selectors.cartCount) {
+        selectors.cartCount.textContent = count.toString();
+    }
+    if (selectors.mobileCartCount) {
+        selectors.mobileCartCount.textContent = count.toString();
     }
 }
 
-// Check subscription status on load
-function checkSubscriptionStatus() {
-    const subscribed = localStorage.getItem('mcvay_newsletter_subscribed');
-    if (subscribed === 'true') {
-        state.newsletterSubscribed = true;
+function updateCheckoutButton() {
+    const hasItems = state.cart.length > 0;
+    if (selectors.checkoutBtn) {
+        selectors.checkoutBtn.disabled = !hasItems;
     }
 }
 
-// Initialize subscription check
-checkSubscriptionStatus();
-trackPerformance();
+function updateOrderSummary() {
+    if (!selectors.orderSummaryList || !selectors.orderSummaryTotal) return;
 
-// Calendly Integration
-function loadCalendlyWidget() {
-    // Load Calendly script if not already loaded
-    if (!window.Calendly) {
-        const script = document.createElement('script');
-        script.src = 'https://assets.calendly.com/assets/external/widget.js';
-        script.onload = () => {
-            initializeCalendlyWidgets();
-        };
-        document.head.appendChild(script);
-        
-        // Load Calendly CSS
-        const link = document.createElement('link');
-        link.href = 'https://assets.calendly.com/assets/external/widget.css';
-        link.rel = 'stylesheet';
-        document.head.appendChild(link);
-    } else {
-        initializeCalendlyWidgets();
-    }
-}
-
-function initializeCalendlyWidgets() {
-    // Replace 'your-calendly-username' with your actual Calendly username
-    const calendlyUrl = 'https://calendly.com/aaron-mcvay/ai-consultation'; // Update this URL
-    
-    // Main consultation section widget
-    if (elements.calendlyWidget && window.Calendly) {
-        try {
-            window.Calendly.initInlineWidget({
-                url: calendlyUrl,
-                parentElement: elements.calendlyWidget,
-                prefill: {},
-                utm: {
-                    utmSource: 'mcvay-enterprises',
-                    utmMedium: 'website',
-                    utmCampaign: 'consultation-booking'
-                }
-            });
-        } catch (error) {
-            console.log('Calendly widget loading error:', error);
-            showFallbackBookingForm();
-        }
-    }
-}
-
-function loadCalendlyInModal() {
-    const calendlyUrl = 'https://calendly.com/aaron-mcvay/ai-consultation'; // Update this URL
-    
-    if (elements.modalCalendlyWidget && window.Calendly) {
-        try {
-            window.Calendly.initInlineWidget({
-                url: calendlyUrl,
-                parentElement: elements.modalCalendlyWidget,
-                prefill: {},
-                utm: {
-                    utmSource: 'mcvay-enterprises',
-                    utmMedium: 'website-modal',
-                    utmCampaign: 'consultation-booking'
-                }
-            });
-        } catch (error) {
-            console.log('Modal Calendly widget loading error:', error);
-            showFallbackModalBookingForm();
-        }
-    }
-}
-
-function showFallbackBookingForm() {
-    if (elements.calendlyWidget) {
-        elements.calendlyWidget.style.display = 'none';
-    }
-    const fallbackForm = document.getElementById('booking-form');
-    if (fallbackForm) {
-        fallbackForm.classList.remove('hidden');
-    }
-}
-
-function showFallbackModalBookingForm() {
-    if (elements.modalCalendlyWidget) {
-        elements.modalCalendlyWidget.style.display = 'none';
-    }
-    const fallbackForm = document.getElementById('modal-booking-form');
-    if (fallbackForm) {
-        fallbackForm.classList.remove('hidden');
-    }
-}
-
-// Consultation Booking Handler
-async function handleConsultationSubmission(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    // Get form values
-    const firstName = form.querySelector('input[placeholder="First Name"]')?.value || '';
-    const lastName = form.querySelector('input[placeholder="Last Name"]')?.value || '';
-    const email = form.querySelector('input[type="email"]')?.value || '';
-    const company = form.querySelector('input[placeholder*="Company"]')?.value || '';
-    const phone = form.querySelector('input[type="tel"]')?.value || '';
-    const preferredTime = form.querySelector('select')?.value || '';
-    const message = form.querySelector('textarea')?.value || '';
-    
-    if (!email || !firstName || !lastName || !company) {
-        showNotification('Please fill in all required fields.', 'error');
+    if (!state.cart.length) {
+        selectors.orderSummaryList.innerHTML = '<li class="text-sm text-mcvay-gray">Add at least one product to request a checkout link.</li>';
+        selectors.orderSummaryTotal.textContent = '$0.00';
+        if (selectors.orderItemsField) selectors.orderItemsField.value = '';
         return;
     }
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Scheduling...';
-    submitBtn.disabled = true;
-    
+
+    const summaryLines = state.cart.map(item => {
+        const product = products[item.productIndex];
+        if (!product) return null;
+        return {
+            name: product.name,
+            quantity: item.quantity,
+            unitPrice: product.price,
+            lineTotal: product.price * item.quantity
+        };
+    }).filter(Boolean);
+
+    selectors.orderSummaryList.innerHTML = summaryLines.map(line => `
+        <li class="flex items-center justify-between"><span>${line.quantity} × ${line.name}</span><span>${formatCurrency(line.lineTotal)}</span></li>
+    `).join('');
+
+    const subtotal = summaryLines.reduce((sum, line) => sum + line.lineTotal, 0);
+    selectors.orderSummaryTotal.textContent = formatCurrency(subtotal);
+
+    if (selectors.orderItemsField) {
+        selectors.orderItemsField.value = JSON.stringify(summaryLines);
+    }
+}
+
+function toggleCart() {
+    if (!selectors.cartDrawer || !selectors.cartOverlay) return;
+    if (selectors.cartDrawer.classList.contains('active')) {
+        closeCart();
+    } else {
+        openCart();
+    }
+}
+
+function openCart() {
+    if (!selectors.cartDrawer || !selectors.cartOverlay) return;
+    selectors.cartDrawer.classList.add('active');
+    selectors.cartDrawer.classList.remove('hidden');
+    selectors.cartOverlay.classList.remove('hidden');
+    selectors.cartOverlay.classList.add('active');
+}
+
+function closeCart() {
+    if (!selectors.cartDrawer || !selectors.cartOverlay) return;
+    selectors.cartDrawer.classList.remove('active');
+    selectors.cartDrawer.classList.add('hidden');
+    selectors.cartOverlay.classList.add('hidden');
+    selectors.cartOverlay.classList.remove('active');
+}
+
+function openOrderModal() {
+    if (!state.cart.length) {
+        showNotification('Add at least one product before requesting checkout.');
+        return;
+    }
+    if (!selectors.orderModal) return;
+    updateOrderSummary();
+    selectors.orderModal.classList.remove('hidden');
+    selectors.orderModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeOrderModal() {
+    if (!selectors.orderModal) return;
+    selectors.orderModal.classList.add('hidden');
+    selectors.orderModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function handleOrderSubmit(event) {
+    event.preventDefault();
+    if (!selectors.orderForm) return;
+
+    if (!state.cart.length) {
+        showNotification('Your cart is empty. Add a product before submitting.');
+        return;
+    }
+
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton?.textContent;
+
+    submitButton && (submitButton.textContent = 'Submitting...');
+    submitButton && (submitButton.disabled = true);
+
+    updateOrderSummary();
+
+    const formData = new FormData(form);
+    formData.append('cartTotal', selectors.orderSummaryTotal?.textContent || '');
+    formData.append('cartItemsReadable', generateReadableCart());
+
     try {
-        // Simulate consultation booking (replace with actual backend integration)
-        await simulateConsultationBooking({ 
-            firstName, 
-            lastName, 
-            email, 
-            company, 
-            phone, 
-            preferredTime, 
-            message 
-        });
-        
-        hideBookingModal();
-        showNotification('Consultation request received! We\'ll contact you within 24 hours to confirm your appointment.', 'success');
-        
-        // Clear form
+        await submitForm(config.orderEndpoint, formData);
         form.reset();
-        
+        clearCart();
+        closeOrderModal();
+        showNotification('Order request received! Watch your email for a Shopify checkout link.');
     } catch (error) {
-        console.error('Consultation booking error:', error);
-        showNotification('Booking failed. Please try again or contact us directly.', 'error');
+        console.error('Order submission failed', error);
+        showNotification('We could not send your order. Please email aaron@mcvayenterprises.com.');
     } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
+        if (submitButton) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
     }
 }
 
-// Simulate consultation booking (replace with actual API call)
-async function simulateConsultationBooking(data) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Consultation booking data:', data);
-            // In production, this would:
-            // 1. Send email to aaron@mcvayenterprises.com
-            // 2. Create calendar event
-            // 3. Send confirmation email to client
-            // 4. Store booking in database
-            resolve(true);
-        }, 1500);
-    });
+function clearCart() {
+    state.cart = [];
+    persistCart();
+    renderCart();
+    closeCart();
 }
 
-// Enhanced Keyboard Shortcuts
-function handleKeyboardShortcuts(e) {
-    // ESC key to close modals
-    if (e.key === 'Escape') {
-        hideNewsletterModal();
-        hideBookingModal();
-    }
-    
-    // Ctrl/Cmd + K to open newsletter modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        showNewsletterModal();
-    }
-    
-    // Ctrl/Cmd + B to open booking modal
-    if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-        e.preventDefault();
-        showBookingModal();
-    }
+function generateReadableCart() {
+    if (!state.cart.length) return '';
+    return state.cart.map(item => {
+        const product = products[item.productIndex];
+        if (!product) return '';
+        return `${item.quantity} x ${product.name} (${formatCurrency(product.price)} ea)`;
+    }).join(', ');
 }
 
-// Export functions for global access
-window.McVayEnterprises = {
-    showNewsletterModal,
-    hideNewsletterModal,
-    showBookingModal,
-    hideBookingModal,
-    showNotification,
-    openBlogPost
-};
+function formatCurrency(value) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(value);
+}
+
+function setCurrentYear() {
+    if (selectors.currentYear) {
+        selectors.currentYear.textContent = new Date().getFullYear();
+    }
+}

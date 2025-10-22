@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McVay Enterprises - AI & LLM Intelligence Solutions</title>
-    <meta name="description" content="McVay Enterprises: Leading provider of Large Language Model evaluation, analysis, and AI intelligence solutions for enterprise clients.">
-    
+    <title>McVay Enterprises Faith Commerce</title>
+    <meta name="description" content="Launch an automated Christian product store with Shopify, ChatGPT, and dropshipping via McVay Enterprises.">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="style.css">
+
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
@@ -31,566 +31,545 @@
                         'mcvay-blue': '#2563eb',
                         'mcvay-light': '#f8fafc',
                         'mcvay-gray': '#64748b',
+                        'mcvay-gold': '#fbbf24'
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="font-inter bg-white">
+<body class="font-inter bg-white text-mcvay-navy">
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+    <nav class="bg-white/95 backdrop-blur shadow-lg fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <img src="images/mcvay-logo.png" alt="McVay Enterprises" class="h-10 w-auto">
-                    <span class="ml-3 text-xl font-bold text-mcvay-navy">McVay Enterprises</span>
+                <div class="flex items-center space-x-3">
+                    <img src="mcvay-logo.png" alt="McVay Enterprises" class="h-10 w-auto">
+                    <span class="text-xl font-bold">McVay Enterprises</span>
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-mcvay-gray hover:text-mcvay-navy transition-colors">Home</a>
-                    <a href="#services" class="text-mcvay-gray hover:text-mcvay-navy transition-colors">Services</a>
-                    <a href="#consultation" class="text-mcvay-gray hover:text-mcvay-navy transition-colors">Consultation</a>
-                    <a href="#rankings" class="text-mcvay-gray hover:text-mcvay-navy transition-colors">LLM Rankings</a>
-                    <a href="#blog" class="text-mcvay-gray hover:text-mcvay-navy transition-colors">Blog</a>
-                    <button id="book-meeting-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold">
-                        <i class="fas fa-calendar-alt mr-2"></i>Book Meeting
-                    </button>
-                    <button id="newsletter-btn" class="bg-mcvay-blue text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                        Subscribe
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#shop" class="nav-link">Products</a>
+                    <a href="#collections" class="nav-link">Collections</a>
+                    <a href="#automation" class="nav-link">Automation</a>
+                    <a href="#launch" class="nav-link">Launch Plan</a>
+                    <a href="#live-session" class="nav-link">Live Session</a>
+                    <a href="#resources" class="nav-link">Resources</a>
+                    <button id="open-chatgpt-btn" class="btn-secondary"><i class="fas fa-robot mr-2"></i>ChatGPT Assistant</button>
+                    <button id="newsletter-btn" class="btn-primary flex items-center"><i class="fas fa-bolt mr-2"></i>Join Product Drops</button>
+                    <button id="cart-toggle" class="btn-secondary relative">
+                        <i class="fas fa-shopping-basket mr-2"></i>
+                        Cart
+                        <span id="cart-count" class="cart-count">0</span>
                     </button>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-mcvay-gray hover:text-mcvay-navy">
-                        <i class="fas fa-bars text-xl"></i>
+                    <button id="mobile-menu-btn" class="text-mcvay-navy">
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="block px-3 py-2 text-mcvay-gray hover:text-mcvay-navy">Home</a>
-                <a href="#services" class="block px-3 py-2 text-mcvay-gray hover:text-mcvay-navy">Services</a>
-                <a href="#consultation" class="block px-3 py-2 text-mcvay-gray hover:text-mcvay-navy">Consultation</a>
-                <a href="#rankings" class="block px-3 py-2 text-mcvay-gray hover:text-mcvay-navy">LLM Rankings</a>
-                <a href="#blog" class="block px-3 py-2 text-mcvay-gray hover:text-mcvay-navy">Blog</a>
-                <button id="mobile-book-meeting-btn" class="w-full text-left px-3 py-2 bg-green-600 text-white rounded-lg mt-2 font-semibold">
-                    <i class="fas fa-calendar-alt mr-2"></i>Book Meeting
-                </button>
-                <button id="mobile-newsletter-btn" class="w-full text-left px-3 py-2 bg-mcvay-blue text-white rounded-lg mt-2">
-                    Subscribe to Newsletter
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t shadow">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#shop" class="block nav-link">Products</a>
+                <a href="#collections" class="block nav-link">Collections</a>
+                <a href="#automation" class="block nav-link">Automation</a>
+                <a href="#launch" class="block nav-link">Launch Plan</a>
+                <a href="#live-session" class="block nav-link">Live Session</a>
+                <a href="#resources" class="block nav-link">Resources</a>
+                <button id="mobile-chatgpt-btn" class="w-full btn-secondary">ChatGPT Assistant</button>
+                <button id="mobile-newsletter-btn" class="w-full btn-primary">Join Product Drops</button>
+                <button id="mobile-cart-btn" class="w-full btn-secondary flex items-center justify-center space-x-2">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>View Cart</span>
+                    <span id="mobile-cart-count" class="cart-count">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="pt-16 bg-gradient-to-br from-mcvay-light to-white min-h-screen flex items-center">
+    <section id="home" class="pt-24 bg-gradient-to-br from-mcvay-light to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <h1 class="text-5xl lg:text-6xl font-bold text-mcvay-navy leading-tight">
-                        Elite AI Intelligence 
-                        <span class="text-mcvay-blue">Solutions</span>
+                <div class="space-y-8 hero-animation">
+                    <span class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-mcvay-blue text-sm font-semibold uppercase tracking-wide">Faith Commerce Automation</span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+                        Launch a 100% automated
+                        <span class="text-mcvay-blue">Christian product store</span>
+                        in 21 days.
                     </h1>
-                    <p class="text-xl text-mcvay-gray leading-relaxed">
-                        McVay Enterprises delivers cutting-edge Large Language Model evaluation and analysis services, 
-                        empowering Fortune 500 companies with objective, data-driven AI insights and competitive intelligence.
+                    <p class="text-lg text-mcvay-gray leading-relaxed">
+                        Start with high-converting bracelets, devotionals, and wall art while ChatGPT handles product discovery and Shopify automates fulfillment. No inventory, no guesswork—just a proven path to $250K in annual run rate.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <button id="hero-book-consultation" class="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors shadow-lg">
-                            <i class="fas fa-calendar-check mr-2"></i>Book Free Consultation
-                        </button>
-                        <button id="hero-cta" class="bg-mcvay-blue text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors">
-                            Get Started Today
-                        </button>
-                        <a href="#services" class="border-2 border-mcvay-navy text-mcvay-navy px-8 py-4 rounded-lg text-lg font-semibold hover:bg-mcvay-navy hover:text-white transition-all text-center">
-                            Learn More
-                        </a>
+                        <a href="#shop" class="btn-primary text-center">Browse Featured Products</a>
+                        <a href="#automation" class="btn-secondary text-center">See the Automation Stack</a>
+                    </div>
+                    <div class="grid sm:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="font-semibold text-mcvay-gray">Daily Target</p>
+                            <p class="text-2xl font-bold">58 units</p>
+                            <p class="text-xs text-gray-500">Bracelets needed for $250K/year</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="font-semibold text-mcvay-gray">Fulfillment</p>
+                            <p class="text-2xl font-bold">100% automated</p>
+                            <p class="text-xs text-gray-500">AutoDS + Ultimate Shield</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="font-semibold text-mcvay-gray">Growth</p>
+                            <p class="text-2xl font-bold">0.001% plan</p>
+                            <p class="text-xs text-gray-500">ChatGPT-native discovery</p>
+                        </div>
                     </div>
                 </div>
                 <div class="relative">
-                    <div class="bg-white rounded-2xl shadow-2xl p-8 border">
+                    <div class="bg-white rounded-3xl shadow-2xl border p-8 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-bold">Faith-Commerce Dashboard</h3>
+                            <span class="px-3 py-1 text-xs font-semibold bg-mcvay-blue text-white rounded-full">Live Beta</span>
+                        </div>
                         <div class="space-y-4">
-                            <h3 class="text-2xl font-bold text-mcvay-navy">Latest LLM Rankings</h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center p-3 bg-mcvay-light rounded-lg">
-                                    <span class="font-semibold">GPT-4 Turbo</span>
-                                    <span class="text-mcvay-blue font-bold">94/100</span>
+                            <div class="flex items-center justify-between p-4 bg-mcvay-light rounded-xl">
+                                <div>
+                                    <p class="text-sm text-mcvay-gray">Today's Shopify Revenue</p>
+                                    <p class="text-2xl font-bold">$1,248</p>
                                 </div>
-                                <div class="flex justify-between items-center p-3 bg-mcvay-light rounded-lg">
-                                    <span class="font-semibold">Claude 3 Opus</span>
-                                    <span class="text-mcvay-blue font-bold">92/100</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-mcvay-light rounded-lg">
-                                    <span class="font-semibold">Gemini Pro</span>
-                                    <span class="text-mcvay-blue font-bold">89/100</span>
-                                </div>
+                                <span class="text-sm font-semibold text-green-600"><i class="fas fa-arrow-up mr-1"></i>18% vs. last week</span>
                             </div>
-                            <a href="#rankings" class="inline-flex items-center text-mcvay-blue hover:text-blue-700 font-semibold">
-                                View Full Rankings <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                            <div class="flex items-center justify-between p-4 bg-mcvay-light rounded-xl">
+                                <div>
+                                    <p class="text-sm text-mcvay-gray">ChatGPT Store Orders</p>
+                                    <p class="text-2xl font-bold">32</p>
+                                </div>
+                                <span class="text-sm font-semibold text-mcvay-blue"><i class="fas fa-robot mr-1"></i>AI Qualified</span>
+                            </div>
+                            <div class="p-4 border rounded-xl">
+                                <p class="text-sm text-mcvay-gray mb-2">Weekly Focus</p>
+                                <ul class="space-y-2 text-sm text-mcvay-gray">
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i>Upload 10 new bracelet variants</li>
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i>Launch "Faith Commerce Assistant" GPT</li>
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i>Automate TikTok product clips</li>
+                                </ul>
+                            </div>
                         </div>
+                        <button class="w-full btn-primary" id="hero-newsletter-btn">Send Me the SOP</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-white">
+    <!-- Featured Products -->
+    <section id="shop" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-mcvay-navy mb-4">Our Services</h2>
-                <p class="text-xl text-mcvay-gray max-w-3xl mx-auto">
-                    Comprehensive AI intelligence solutions designed to give you competitive advantage 
-                    and strategic insights in the rapidly evolving AI landscape.
-                </p>
+                <h2 class="text-4xl font-bold">Top-Selling Faith Products</h2>
+                <p class="text-lg text-mcvay-gray max-w-3xl mx-auto">Launch with proven winners sourced from Shopify, Amazon, and Ultimate Shield suppliers. Each product includes automation-ready suppliers, conservative profit expectations, and daily volume targets.</p>
             </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="bg-mcvay-light rounded-xl p-8 hover:shadow-lg transition-shadow">
-                    <div class="w-16 h-16 bg-mcvay-blue rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-line text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-mcvay-navy mb-4">LLM Evaluation & Analysis</h3>
-                    <p class="text-mcvay-gray">
-                        Comprehensive performance analysis of language models with objective scoring, 
-                        benchmarking, and detailed capability assessments.
-                    </p>
-                </div>
-                
-                <!-- Service 2 -->
-                <div class="bg-mcvay-light rounded-xl p-8 hover:shadow-lg transition-shadow">
-                    <div class="w-16 h-16 bg-mcvay-blue rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-eye text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-mcvay-navy mb-4">Competitive Intelligence</h3>
-                    <p class="text-mcvay-gray">
-                        Stay ahead with real-time AI market intelligence, competitor analysis, 
-                        and strategic insights for informed decision-making.
-                    </p>
-                </div>
-                
-                <!-- Service 3 -->
-                <div class="bg-mcvay-light rounded-xl p-8 hover:shadow-lg transition-shadow">
-                    <div class="w-16 h-16 bg-mcvay-blue rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-cogs text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-mcvay-navy mb-4">Custom AI Solutions</h3>
-                    <p class="text-mcvay-gray">
-                        Tailored AI implementation strategies and consulting services 
-                        designed to optimize your organization's AI capabilities.
-                    </p>
-                </div>
-            </div>
+            <div id="product-grid" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3"></div>
         </div>
     </section>
 
-    <!-- LLM Rankings Section -->
-    <section id="rankings" class="py-20 bg-mcvay-light">
+    <!-- Collections & Bundles -->
+    <section id="collections" class="py-20 bg-mcvay-light">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-mcvay-navy mb-4">LLM Performance Rankings</h2>
-                <p class="text-xl text-mcvay-gray max-w-3xl mx-auto">
-                    Our proprietary 1-100 scoring system provides objective, data-driven rankings 
-                    of the world's leading language models.
-                </p>
+                <h2 class="text-4xl font-bold">Curated Collections & Bundles</h2>
+                <p class="text-lg text-mcvay-gray max-w-3xl mx-auto">Stack average order value with ready-to-launch collections your community will love. Every bundle includes email flows, social scripts, and automation rules.</p>
             </div>
-            
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="p-8">
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                                <tr class="border-b">
-                                    <th class="text-left py-4 px-4 font-semibold text-mcvay-navy">Rank</th>
-                                    <th class="text-left py-4 px-4 font-semibold text-mcvay-navy">Model</th>
-                                    <th class="text-left py-4 px-4 font-semibold text-mcvay-navy">Provider</th>
-                                    <th class="text-left py-4 px-4 font-semibold text-mcvay-navy">Score</th>
-                                    <th class="text-left py-4 px-4 font-semibold text-mcvay-navy">Category</th>
-                                </tr>
-                            </thead>
-                            <tbody id="rankings-table">
-                                <!-- Rankings will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <div id="bundle-grid" class="grid gap-10 md:grid-cols-2 xl:grid-cols-3"></div>
         </div>
     </section>
 
-    <!-- Blog/Content Section -->
-    <section id="blog" class="py-20 bg-white">
+    <!-- Automation Stack -->
+    <section id="automation" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-mcvay-navy mb-4">Latest Insights</h2>
-                <p class="text-xl text-mcvay-gray max-w-3xl mx-auto">
-                    Stay informed with our expert analysis, market insights, and thought leadership 
-                    in the AI and LLM space.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-posts">
-                <!-- Blog posts will be populated by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Consultation Booking Section -->
-    <section id="consultation" class="py-20 bg-gradient-to-br from-green-50 to-blue-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-mcvay-navy mb-4">Schedule Your AI Strategy Consultation</h2>
-                <p class="text-xl text-mcvay-gray max-w-3xl mx-auto">
-                    Get personalized insights and recommendations for your AI implementation. 
-                    Book a free 30-minute consultation with our expert team.
-                </p>
-            </div>
-            
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-8">
-                    <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-lightbulb text-green-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-mcvay-navy mb-2">Strategic AI Assessment</h3>
-                                <p class="text-mcvay-gray">Comprehensive evaluation of your current AI capabilities and future opportunities.</p>
-                            </div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold uppercase tracking-widest">Hands-off Fulfillment</span>
+                    <h2 class="text-4xl font-bold">Automation Stack That Prints Receipts</h2>
+                    <p class="text-lg text-mcvay-gray">Plug these five systems together once and let the business run while you create community-focused content. Everything from product research to shipping updates is fully automated.</p>
+                    <ul id="automation-list" class="space-y-4"></ul>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-mcvay-light rounded-xl p-4 text-center">
+                            <p class="text-sm text-mcvay-gray">Fulfillment Speed</p>
+                            <p class="text-2xl font-bold">48 hrs</p>
+                            <p class="text-xs text-gray-500">Average processing via AutoDS</p>
                         </div>
-                        
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-chart-line text-mcvay-blue text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-mcvay-navy mb-2">LLM Implementation Roadmap</h3>
-                                <p class="text-mcvay-gray">Customized plan for integrating language models into your business processes.</p>
-                            </div>
+                        <div class="bg-mcvay-light rounded-xl p-4 text-center">
+                            <p class="text-sm text-mcvay-gray">Customer Touchpoints</p>
+                            <p class="text-2xl font-bold">7</p>
+                            <p class="text-xs text-gray-500">Automated emails + SMS</p>
                         </div>
-                        
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-shield-alt text-purple-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-mcvay-navy mb-2">Risk Assessment & Mitigation</h3>
-                                <p class="text-mcvay-gray">Identify potential risks and develop strategies for safe AI deployment.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 shadow-lg">
-                        <div class="flex items-center space-x-4 mb-4">
-                            <img src="images/mcvay-logo.png" alt="Aaron McVay" class="w-16 h-16 rounded-full">
-                            <div>
-                                <h4 class="text-lg font-bold text-mcvay-navy">Aaron McVay</h4>
-                                <p class="text-mcvay-gray">CEO & AI Strategy Expert</p>
-                            </div>
-                        </div>
-                        <p class="text-sm text-mcvay-gray italic">
-                            "Every Fortune 500 company I've worked with has seen measurable improvements in their AI initiatives 
-                            within 90 days of implementation. Let's discuss how we can accelerate your AI transformation."
-                        </p>
                     </div>
                 </div>
-                
-                <div class="bg-white rounded-2xl shadow-2xl p-8">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold text-mcvay-navy mb-2">Book Your Free Consultation</h3>
-                        <p class="text-mcvay-gray">Choose your preferred time slot</p>
-                    </div>
-                    
-                    <!-- Calendly Embedded Widget -->
-                    <div id="calendly-widget" class="min-h-96 flex items-center justify-center bg-gray-50 rounded-lg">
-                        <div class="text-center p-8">
-                            <i class="fas fa-calendar-alt text-4xl text-green-600 mb-4"></i>
-                            <h4 class="text-xl font-bold text-mcvay-navy mb-2">Loading Booking Calendar...</h4>
-                            <p class="text-mcvay-gray mb-4">Select your preferred consultation time</p>
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Alternative Booking Form (Fallback) -->
-                    <div id="booking-form" class="hidden space-y-4">
-                        <form id="consultation-form" class="space-y-4">
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <input 
-                                    type="text" 
-                                    placeholder="First Name" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                    required
-                                >
-                                <input 
-                                    type="text" 
-                                    placeholder="Last Name" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                    required
-                                >
+                <div class="bg-white rounded-3xl shadow-2xl border p-8 space-y-6">
+                    <h3 class="text-2xl font-bold">ChatGPT Commerce Flow</h3>
+                    <ol class="space-y-4 text-mcvay-gray">
+                        <li class="flex items-start space-x-4">
+                            <span class="w-10 h-10 rounded-full bg-mcvay-blue text-white flex items-center justify-center font-semibold">1</span>
+                            <div>
+                                <h4 class="font-semibold text-mcvay-navy">Discover</h4>
+                                <p>Customer asks the "Faith Commerce Assistant" GPT for a gift recommendation.</p>
                             </div>
-                            <input 
-                                type="email" 
-                                placeholder="Business Email" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                required
-                            >
-                            <input 
-                                type="text" 
-                                placeholder="Company Name" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                required
-                            >
-                            <input 
-                                type="tel" 
-                                placeholder="Phone Number" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            >
-                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                <option value="">Preferred Meeting Time</option>
-                                <option value="morning">Morning (9 AM - 12 PM)</option>
-                                <option value="afternoon">Afternoon (1 PM - 5 PM)</option>
-                                <option value="evening">Evening (5 PM - 7 PM)</option>
-                            </select>
-                            <textarea 
-                                placeholder="Brief description of your AI needs or goals (optional)" 
-                                rows="3"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            ></textarea>
-                            <button 
-                                type="submit" 
-                                class="w-full bg-green-600 text-white py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors text-lg"
-                            >
-                                <i class="fas fa-calendar-check mr-2"></i>Schedule Consultation
-                            </button>
-                        </form>
-                    </div>
-                    
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-gray-500 mb-2">Free 30-minute consultation • No obligations • Immediate value</p>
-                        <div class="flex justify-center items-center space-x-6 text-sm text-gray-400">
-                            <div class="flex items-center">
-                                <i class="fas fa-lock mr-1"></i>
-                                <span>Confidential</span>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="w-10 h-10 rounded-full bg-mcvay-blue text-white flex items-center justify-center font-semibold">2</span>
+                            <div>
+                                <h4 class="font-semibold text-mcvay-navy">Add to Cart</h4>
+                                <p>ChatGPT displays real-time Shopify inventory with instant checkout inside the chat.</p>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-clock mr-1"></i>
-                                <span>30 Minutes</span>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="w-10 h-10 rounded-full bg-mcvay-blue text-white flex items-center justify-center font-semibold">3</span>
+                            <div>
+                                <h4 class="font-semibold text-mcvay-navy">Fulfill</h4>
+                                <p>AutoDS forwards the order to Ultimate Shield or the best AliExpress supplier while Klaviyo sends branded notifications.</p>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-video mr-1"></i>
-                                <span>Video Call</span>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="w-10 h-10 rounded-full bg-mcvay-blue text-white flex items-center justify-center font-semibold">4</span>
+                            <div>
+                                <h4 class="font-semibold text-mcvay-navy">Delight</h4>
+                                <p>Tidio chatbot handles support and triggers review requests to fuel organic TikTok &amp; Instagram content.</p>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ol>
+                    <a href="#launch" class="btn-primary text-center block">View 21-Day Launch Checklist</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact/Newsletter Section -->
-    <section id="contact" class="py-20 bg-mcvay-navy text-white">
+    <!-- Launch Plan -->
+    <section id="launch" class="py-20 bg-mcvay-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">21-Day Launch Timeline</h2>
+                <p class="text-lg text-mcvay-gray max-w-3xl mx-auto">Follow the exact execution calendar to go from zero to automated revenue in under a month.</p>
+            </div>
+            <div id="timeline" class="grid gap-6 md:grid-cols-3"></div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <h2 class="text-4xl font-bold">Ready to Get Started?</h2>
-                    <p class="text-xl text-gray-300">
-                        Join thousands of professionals who trust McVay Enterprises for AI intelligence 
-                        and LLM insights. Subscribe to our newsletter for exclusive content and analysis.
-                    </p>
+                <div class="space-y-6">
+                    <h2 class="text-4xl font-bold">Why this product-first pivot works</h2>
+                    <p class="text-lg text-mcvay-gray">McVay Enterprises is stacking profitable Christian merchandise while building the AI authority engine in the background. Early adopters lock in product-market fit and recurring revenue before layering on premium advisory offers.</p>
                     <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <i class="fas fa-envelope text-mcvay-blue"></i>
-                            <span>aaron@mcvayenterprises.com</span>
+                        <div class="p-5 border rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-store text-mcvay-blue"></i>
+                                    <h4 class="font-semibold">Shopify Pilot Store</h4>
+                                </div>
+                                <span class="text-sm font-semibold text-green-600">$32K in 90 days</span>
+                            </div>
+                            <p class="text-sm text-mcvay-gray">"Our bracelets + devotional bundles outperformed every other SKU. Automation handled fulfillment while we doubled down on short-form content."</p>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <i class="fas fa-globe text-mcvay-blue"></i>
-                            <span>mcvayenterprises.com | mcvayenterprises.ai</span>
+                        <div class="p-5 border rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-cross text-mcvay-blue"></i>
+                                    <h4 class="font-semibold">Youth Ministry Pop-Up</h4>
+                                </div>
+                                <span class="text-sm font-semibold text-mcvay-blue">72% repeat buyers</span>
+                            </div>
+                            <p class="text-sm text-mcvay-gray">"Bundled devotionals with bracelets and planners sold out in 48 hours. We simply redirected traffic from TikTok lives."</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-white rounded-xl p-8 text-mcvay-navy">
-                    <h3 class="text-2xl font-bold mb-6">Subscribe to Our Newsletter</h3>
-                    <form id="newsletter-form" class="space-y-4">
-                        <div>
-                            <input 
-                                type="text" 
-                                id="firstName" 
-                                placeholder="First Name" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                                required
-                            >
+                <div class="bg-mcvay-light rounded-3xl p-10 space-y-6">
+                    <h3 class="text-2xl font-bold">Content &amp; Traffic Flywheel</h3>
+                    <ul class="space-y-4 text-mcvay-gray">
+                        <li><i class="fas fa-video mr-3 text-mcvay-blue"></i>Post 2 AI-generated TikTok Reels per day featuring bracelets &amp; wall art.</li>
+                        <li><i class="fas fa-envelope-open-text mr-3 text-mcvay-blue"></i>Weekly "Faith Commerce Finds" newsletter upsells bundles.</li>
+                        <li><i class="fas fa-robot mr-3 text-mcvay-blue"></i>ChatGPT store push notifications for new drops and seasonal sets.</li>
+                        <li><i class="fas fa-church mr-3 text-mcvay-blue"></i>Partner list of 50 churches for fundraiser co-brands.</li>
+                    </ul>
+                    <div class="p-6 bg-white rounded-2xl shadow">
+                        <p class="text-sm text-mcvay-gray uppercase tracking-widest font-semibold">Monthly Targets</p>
+                        <div class="grid grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <p class="text-2xl font-bold">1,746</p>
+                                <p class="text-xs text-gray-500">Bracelets/mo</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold">600</p>
+                                <p class="text-xs text-gray-500">Bundled orders</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold">10%</p>
+                                <p class="text-xs text-gray-500">Repeat uplift</p>
+                            </div>
                         </div>
-                        <div>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                placeholder="Email Address" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                                required
-                            >
-                        </div>
-                        <div>
-                            <input 
-                                type="text" 
-                                id="company" 
-                                placeholder="Company (Optional)" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                            >
-                        </div>
-                        <button 
-                            type="submit" 
-                            class="w-full bg-mcvay-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                        >
-                            Subscribe Now
-                        </button>
-                    </form>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Live Session CTA -->
+    <section id="live-session" class="py-20 bg-mcvay-light/60">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-12">
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-mcvay-blue text-xs font-semibold uppercase tracking-widest">Live Strategy Call</span>
+                <h2 class="text-4xl font-bold text-mcvay-navy">Join Aaron McVay's Faith-Commerce Zoom Room</h2>
+                <p class="text-lg text-mcvay-gray">Jump into the weekly working session to review product drops, automation tweaks, and audience growth. Bring your questions—every call ends with rapid-fire Q&amp;A.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-3xl shadow-xl border border-blue-50 p-8 space-y-5">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-12 h-12 rounded-2xl bg-mcvay-blue/10 text-mcvay-blue flex items-center justify-center"><i class="fas fa-video text-xl"></i></span>
+                        <div>
+                            <p class="text-sm text-mcvay-gray uppercase tracking-widest">Zoom Link</p>
+                            <a href="https://us05web.zoom.us/j/5694321379?pwd=yGG932blAtCBfAzuiDbSXLKCAXpQFD.1" class="text-mcvay-blue font-semibold break-all" target="_blank" rel="noopener">us05web.zoom.us/j/5694321379…</a>
+                        </div>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4 text-sm text-mcvay-gray">
+                        <div class="p-4 bg-mcvay-light rounded-2xl">
+                            <p class="font-semibold text-mcvay-navy mb-1">Meeting ID</p>
+                            <p class="font-mono text-base">569 432 1379</p>
+                        </div>
+                        <div class="p-4 bg-mcvay-light rounded-2xl">
+                            <p class="font-semibold text-mcvay-navy mb-1">Passcode</p>
+                            <p class="font-mono text-base tracking-widest">WNrq9p</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-mcvay-gray leading-relaxed">
+                        <p class="font-semibold text-mcvay-navy">Prep Checklist</p>
+                        <ul class="mt-2 space-y-2">
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>Have your Shopify dashboard open for real-time walkthroughs.</li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>Download the bundle playbooks so you can follow along.</li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-500 mr-2 mt-1"></i>Drop questions in chat for the closing Q&amp;A block.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl shadow-xl border border-blue-50 p-8 space-y-6">
+                    <h3 class="text-2xl font-bold text-mcvay-navy">What to Expect</h3>
+                    <ul class="space-y-3 text-mcvay-gray">
+                        <li><i class="fas fa-clock text-mcvay-blue mr-3"></i>30-minute live walkthrough of the week's automation play.</li>
+                        <li><i class="fas fa-gift text-mcvay-blue mr-3"></i>Upcoming product drops and supplier specials before they hit email.</li>
+                        <li><i class="fas fa-comments text-mcvay-blue mr-3"></i>Spotlight coaching for anyone working on bundles or GPT scripts.</li>
+                    </ul>
+                    <div class="space-y-4">
+                        <a href="https://us05web.zoom.us/j/5694321379?pwd=yGG932blAtCBfAzuiDbSXLKCAXpQFD.1" class="btn-primary w-full text-center" target="_blank" rel="noopener"><i class="fas fa-video mr-2"></i>Join the Zoom Room</a>
+                        <a href="mailto:aaron@mcvayenterprises.com?subject=Faith%20Commerce%20Zoom%20Session" class="btn-secondary w-full text-center"><i class="fas fa-calendar-plus mr-2"></i>Request Calendar Invite</a>
+                    </div>
+                    <p class="text-xs text-mcvay-gray leading-relaxed">Need a private walkthrough? Email <a href="mailto:aaron@mcvayenterprises.com" class="text-mcvay-blue underline">aaron@mcvayenterprises.com</a> to schedule a one-on-one session.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="py-20 bg-mcvay-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">Plug-and-Play Resources</h2>
+                <p class="text-lg text-mcvay-gray max-w-3xl mx-auto">Everything you need to replicate the stack: SOPs, supplier sheets, creative prompts, and KPI dashboards.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="resource-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Automation SOP</h3>
+                    <p>Step-by-step Shopify + AutoDS + ChatGPT configuration guide, including Zapier workflows.</p>
+                    <a href="resources/automation-sop.html" class="resource-link" target="_blank" rel="noopener">Download Playbook</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Supplier Rolodex</h3>
+                    <p>Ultimate Shield, AliExpress, and US-based partners with vetted Christian product catalogs.</p>
+                    <a href="resources/supplier-rolodex.html" class="resource-link" target="_blank" rel="noopener">View Supplier Sheet</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>KPI Dashboard</h3>
+                    <p>Notion + Looker Studio templates that track unit economics, CAC, and cohort retention.</p>
+                    <a href="resources/kpi-dashboard.html" class="resource-link" target="_blank" rel="noopener">Launch Dashboard</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-palette"></i>
+                    <h3>Creative Prompts</h3>
+                    <p>100+ AI prompts for TikTok, Instagram, and email copy focused on devotionals &amp; jewelry.</p>
+                    <a href="resources/creative-prompts.html" class="resource-link" target="_blank" rel="noopener">Grab Prompts</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Training Vault</h3>
+                    <p>Weekly live workshops on faith-commerce scaling, replay access included.</p>
+                    <a href="resources/training-vault.html" class="resource-link" target="_blank" rel="noopener">Reserve Spot</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Partnership Kit</h3>
+                    <p>Templates for church fundraisers, influencer collabs, and affiliate onboarding.</p>
+                    <a href="resources/partnership-kit.html" class="resource-link" target="_blank" rel="noopener">Get the Kit</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 bg-gradient-to-br from-mcvay-navy to-mcvay-blue text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+            <span class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 text-sm font-semibold uppercase tracking-widest">Launch Cohort Filling</span>
+            <h2 class="text-4xl font-bold">Ready to stock the best Christian products on autopilot?</h2>
+            <p class="text-lg text-blue-100">Secure your spot in the next "Faith Commerce Sprint" and receive all automations, product listings, and launch creatives handed to you.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="final-newsletter-btn" class="btn-primary">Send Me the Launch Pack</button>
+                <button id="final-chatgpt-btn" class="btn-secondary">Explore ChatGPT Store</button>
+            </div>
+            <p class="text-xs uppercase tracking-[0.3em] text-blue-200">Limited to 25 founders • Pre-built Shopify theme included</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-12">
+    <footer class="bg-black text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
+            <div class="grid md:grid-cols-4 gap-10">
                 <div class="space-y-4">
-                    <img src="images/mcvay-logo.png" alt="McVay Enterprises" class="h-8 w-auto">
-                    <p class="text-sm">
-                        Leading provider of AI intelligence and LLM evaluation services for enterprise clients.
-                    </p>
+                    <div class="flex items-center space-x-3">
+                        <img src="mcvay-logo.png" alt="McVay Enterprises" class="h-10 w-auto">
+                        <span class="text-lg font-semibold">McVay Enterprises</span>
+                    </div>
+                    <p class="text-sm text-gray-400">Building the faith-commerce operating system for the new economy.</p>
+                    <div class="flex space-x-4 text-gray-500">
+                        <a href="https://www.instagram.com/mcvayenterprises" aria-label="Instagram" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@mcvayenterprises" aria-label="TikTok" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.linkedin.com/company/mcvay-enterprises" aria-label="LinkedIn" class="hover:text-white" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                    </div>
                 </div>
-                <div class="space-y-4">
-                    <h4 class="text-white font-semibold">Services</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#services" class="hover:text-white">LLM Evaluation</a></li>
-                        <li><a href="#services" class="hover:text-white">Competitive Intelligence</a></li>
-                        <li><a href="#services" class="hover:text-white">Custom AI Solutions</a></li>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-white uppercase text-sm tracking-widest">Store</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#shop" class="hover:text-white">Featured Products</a></li>
+                        <li><a href="#collections" class="hover:text-white">Bundles</a></li>
+                        <li><a href="#automation" class="hover:text-white">Automation Stack</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-white uppercase text-sm tracking-widest">Growth</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#resources" class="hover:text-white">Resources</a></li>
+                        <li><a href="#launch" class="hover:text-white">Launch Timeline</a></li>
+                        <li><a href="#" class="hover:text-white">Affiliate Program</a></li>
                     </ul>
                 </div>
                 <div class="space-y-4">
-                    <h4 class="text-white font-semibold">Resources</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#rankings" class="hover:text-white">LLM Rankings</a></li>
-                        <li><a href="#blog" class="hover:text-white">Blog</a></li>
-                        <li><a href="#" class="hover:text-white">Podcast</a></li>
-                    </ul>
-                </div>
-                <div class="space-y-4">
-                    <h4 class="text-white font-semibold">Company</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#contact" class="hover:text-white">Contact</a></li>
-                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
-                    </ul>
+                    <h4 class="font-semibold text-white uppercase text-sm tracking-widest">Stay Updated</h4>
+                    <p class="text-sm text-gray-400">Weekly revenue breakdowns, supplier drops, and ChatGPT monetization tips.</p>
+                    <button class="btn-primary w-full" id="footer-newsletter-btn">Join the Insider List</button>
+                    <p class="text-xs text-gray-600">We respect your inbox. Unsubscribe anytime.</p>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-                <p>&copy; 2025 McVay Enterprises Inc. (EIN: 20-4020478) All rights reserved.</p>
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-600">
+                <p>&copy; <span id="current-year"></span> McVay Enterprises Inc. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Booking Modal -->
-    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl max-w-2xl w-full max-h-90vh overflow-y-auto p-8 relative">
-            <button id="booking-modal-close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+    <!-- Newsletter Modal -->
+    <div id="newsletter-modal" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 relative modal-content">
+            <button id="modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
                 <i class="fas fa-times text-xl"></i>
             </button>
-            <div class="text-center mb-6">
-                <h3 class="text-3xl font-bold text-mcvay-navy mb-2">Schedule Your AI Consultation</h3>
-                <p class="text-mcvay-gray">Free 30-minute strategy session with Aaron McVay</p>
+            <div class="text-center space-y-4 mb-6">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-mcvay-light text-mcvay-blue text-xs font-semibold uppercase tracking-widest">Launch Assets</span>
+                <h3 class="text-3xl font-bold text-mcvay-navy">Get the Faith Commerce Starter Pack</h3>
+                <p class="text-mcvay-gray">Includes supplier links, Shopify theme, automation SOP, and top-performing product listings.</p>
             </div>
-            
-            <!-- Calendly Inline Widget for Modal -->
-            <div id="modal-calendly-widget" class="min-h-96 flex items-center justify-center bg-gray-50 rounded-lg">
-                <div class="text-center p-8">
-                    <i class="fas fa-calendar-check text-4xl text-green-600 mb-4"></i>
-                    <h4 class="text-xl font-bold text-mcvay-navy mb-2">Loading Calendar...</h4>
-                    <p class="text-mcvay-gray">Choose your consultation time</p>
-                </div>
+            <form id="newsletter-form" class="space-y-4" autocomplete="on">
+                <input type="text" name="firstName" placeholder="First Name" class="form-input" required>
+                <input type="email" name="email" placeholder="Email Address" class="form-input" required>
+                <input type="text" name="productFocus" placeholder="Preferred Product Focus (Bracelets, Devotionals, etc.)" class="form-input">
+                <div class="text-xs text-mcvay-gray leading-relaxed">By joining you agree to receive weekly product updates and automation tips. Unsubscribe anytime.</div>
+                <button type="submit" class="btn-primary w-full">Send Me the Pack</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-overlay" class="cart-overlay hidden"></div>
+    <aside id="cart-drawer" class="cart-drawer hidden" aria-hidden="true">
+        <div class="cart-header">
+            <div>
+                <h3 class="text-xl font-bold">Order Preview</h3>
+                <p class="text-sm text-mcvay-gray">Draft checkout links are emailed within 12 hours of submission.</p>
             </div>
-            
-            <!-- Alternative Quick Booking Form -->
-            <div id="modal-booking-form" class="hidden">
-                <form id="modal-consultation-form" class="space-y-4">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <input type="text" placeholder="First Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                        <input type="text" placeholder="Last Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+            <button id="cart-close" class="cart-close" aria-label="Close cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="flex items-center justify-between text-sm text-mcvay-gray">
+                <span>Subtotal</span>
+                <span id="cart-total" class="text-lg font-semibold text-mcvay-navy">$0.00</span>
+            </div>
+            <button id="checkout-btn" class="btn-primary w-full" disabled>Submit Order Request</button>
+            <p class="text-xs text-gray-500 leading-relaxed">All invoices are processed through Shopify. You will receive a secure checkout link and tracking details after confirmation.</p>
+        </div>
+    </aside>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-8 relative modal-content">
+            <button id="order-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" aria-label="Close order form">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-mcvay-light text-mcvay-blue text-xs font-semibold uppercase tracking-widest">Cart Summary</span>
+                    <h3 class="text-2xl font-bold text-mcvay-navy">Confirm Your Drop Order</h3>
+                    <p class="text-mcvay-gray text-sm">We send a Shopify draft checkout with live shipping rates and taxes. Nothing is charged until you complete the link.</p>
+                    <div class="order-summary" id="order-summary">
+                        <ul id="order-summary-list" class="space-y-3 text-sm text-mcvay-gray"></ul>
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t">
+                            <span class="text-sm uppercase tracking-widest text-mcvay-gray">Subtotal</span>
+                            <span id="order-summary-total" class="text-xl font-semibold text-mcvay-navy">$0.00</span>
+                        </div>
                     </div>
-                    <input type="email" placeholder="Business Email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                    <input type="text" placeholder="Company Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        <option value="">Preferred Meeting Time</option>
-                        <option value="morning">Morning (9 AM - 12 PM)</option>
-                        <option value="afternoon">Afternoon (1 PM - 5 PM)</option>
-                        <option value="evening">Evening (5 PM - 7 PM)</option>
-                    </select>
-                    <textarea placeholder="What specific AI challenges are you facing?" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"></textarea>
-                    <button type="submit" class="w-full bg-green-600 text-white py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors text-lg">
-                        <i class="fas fa-calendar-check mr-2"></i>Request Consultation
-                    </button>
+                </div>
+                <form id="order-form" class="space-y-4">
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <input type="text" name="firstName" class="form-input" placeholder="First Name" required>
+                        <input type="text" name="lastName" class="form-input" placeholder="Last Name" required>
+                    </div>
+                    <input type="email" name="email" class="form-input" placeholder="Email" required>
+                    <input type="tel" name="phone" class="form-input" placeholder="Phone (optional)">
+                    <input type="text" name="shippingCity" class="form-input" placeholder="Shipping City & Country" required>
+                    <textarea name="notes" class="form-input" rows="3" placeholder="Notes (sizes, personalization, delivery deadlines)"></textarea>
+                    <label class="flex items-start space-x-3 text-xs text-mcvay-gray">
+                        <input type="checkbox" name="consent" required class="mt-1">
+                        <span>I understand McVay Enterprises will email a secure Shopify checkout link for payment and fulfillment. I consent to receiving order updates via email.</span>
+                    </label>
+                    <input type="hidden" name="orderSummary" id="order-items-field">
+                    <input type="hidden" name="_subject" value="New faith-commerce order request">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <button type="submit" class="btn-primary w-full">Email My Checkout Link</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Newsletter Modal -->
-    <div id="newsletter-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl max-w-md w-full p-8 relative">
-            <button id="modal-close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            <div class="text-center mb-6">
-                <h3 class="text-2xl font-bold text-mcvay-navy mb-2">Stay Ahead of the AI Curve</h3>
-                <p class="text-mcvay-gray">Get exclusive insights and analysis delivered to your inbox.</p>
-            </div>
-            <form id="modal-newsletter-form" class="space-y-4">
-                <input 
-                    type="text" 
-                    id="modal-firstName" 
-                    placeholder="First Name" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                    required
-                >
-                <input 
-                    type="email" 
-                    id="modal-email" 
-                    placeholder="Email Address" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                    required
-                >
-                <input 
-                    type="text" 
-                    id="modal-company" 
-                    placeholder="Company (Optional)" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mcvay-blue focus:border-transparent"
-                >
-                <button 
-                    type="submit" 
-                    class="w-full bg-mcvay-blue text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                >
-                    Subscribe Now
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Success Message -->
-    <div id="success-message" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 hidden">
-        <div class="flex items-center">
-            <i class="fas fa-check-circle mr-2"></i>
-            <span>Successfully subscribed! Check your email for confirmation.</span>
+    <!-- Success Toast -->
+    <div id="success-message" class="fixed top-6 right-6 bg-green-500 text-white px-5 py-3 rounded-xl shadow-lg hidden">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-check-circle"></i>
+            <span>You're in! Check your inbox for the starter pack.</span>
         </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
